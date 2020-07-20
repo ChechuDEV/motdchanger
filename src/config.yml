@@ -3,6 +3,7 @@
 #Modify this to have another motd
 permanent-motd: "§bServer is running smooth...%newline%&6Be happy!"
 metrics: true
-autoupdate: true
+checkupdates: true
+autoupdate: true # Above setting has to be true for this to work
 
 #After changing this use /setmotd reload (If you have set any temporary motd it will be lost)
