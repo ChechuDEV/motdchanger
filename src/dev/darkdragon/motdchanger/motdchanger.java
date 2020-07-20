@@ -43,7 +43,8 @@ public class motdchanger extends JavaPlugin {
             }
         }
 
-        // TODO: Missing autoupdate
+        // TODO: Missing autoupdate and timed update checker
+        new Updater(this);
 
         super.onEnable();
     }
