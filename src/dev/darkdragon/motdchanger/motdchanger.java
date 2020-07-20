@@ -8,6 +8,9 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 public class motdchanger extends JavaPlugin {
     public String Motd = "";
@@ -43,11 +46,23 @@ public class motdchanger extends JavaPlugin {
             }
         }
 
-        // TODO: Missing autoupdate and timed update checker
-        new Updater(this);
+        // TODO: Missing autoupdate
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                update();
+            }
+        };
+        timer.schedule(task, 0, TimeUnit.MINUTES.toMillis(30));
 
         super.onEnable();
     }
+
+    public void update() {
+        new Updater(this);
+    }
+
     @Override
     public void onDisable() {
         // Ad text
