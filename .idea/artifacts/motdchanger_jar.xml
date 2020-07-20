@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="motdchanger:jar">
+    <output-path>$PROJECT_DIR$/../../../../Spigot/1.16.1 Server/plugins</output-path>
+    <root id="archive" name="motdchanger.jar">
+      <element id="module-output" name="motdchanger" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Spigot/BT/BuildTools/spigot-1.16.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
