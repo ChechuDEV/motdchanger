@@ -5,12 +5,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-public class motdchange implements CommandExecutor {
+public class motdchange implements CommandExecutor, TabCompleter {
     motdchanger plugin;
     public motdchange(motdchanger pl) {
         plugin = pl;
@@ -87,6 +89,8 @@ public class motdchange implements CommandExecutor {
                     noPerms(commandSender);
                     return false;
                 }
+            default:
+                commandSender.sendMessage(ChatColor.RED + "[MotdChanger] Command not found");
         }
 
 
@@ -148,5 +152,23 @@ public class motdchange implements CommandExecutor {
     }
     void noPerms(CommandSender sender) {
         sender.sendMessage(ChatColor.RED + "[MotdChanger] You do not have permissions for this command!");
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
+        ArrayList<String> completion = new ArrayList<>();
+        if(commandSender.hasPermission("motdchanger")){
+            if (strings.length == 1){
+                completion.add("help");
+                completion.add("info");
+                if(commandSender.hasPermission("motdchanger.temporary")) completion.add("temporary");
+                if(commandSender.hasPermission("motdchanger.permanent")) completion.add("permanent");
+                if(commandSender.hasPermission("motdchanger.reload")) completion.add("reload");
+                return completion;
+            }
+            return completion;
+        }
+        return completion;
+
     }
 }
