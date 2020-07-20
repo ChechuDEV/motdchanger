@@ -56,6 +56,6 @@ public class motdchanger extends JavaPlugin {
     }
 
     public void sendMessage(String message) {
-        Bukkit.getConsoleSender().sendMessage(ChatColor.AQUA + "[MotdChanger]" + ChatColor.YELLOW + message);
+        Bukkit.getConsoleSender().sendMessage(ChatColor.AQUA + "[MotdChanger] " + ChatColor.YELLOW + message);
     }
 }
