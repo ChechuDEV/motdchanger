@@ -37,6 +37,13 @@ public class motdchange implements CommandExecutor {
             motdString.add("");
         }
 
+        StringBuilder sb = new StringBuilder();
+
+        for (String string : motdString) {
+            sb.append(string);
+            sb.append(" ");
+        }
+
         // Command calls
         String commandString = strings[0];
 
@@ -52,7 +59,8 @@ public class motdchange implements CommandExecutor {
             // Temporary command
             case "temporary":
                 if(commandSender.hasPermission("motdchanger.temporary")){
-                    changeMotd(false, motdString.toString());
+                    changeMotd(false, sb.toString());
+                    commandSender.sendMessage(ChatColor.AQUA + "[MotdChanger] " + ChatColor.GREEN + "MOTD changed temporarily");
                     return true;
                 } else {
                     noPerms(commandSender);
@@ -62,7 +70,8 @@ public class motdchange implements CommandExecutor {
             // Permanent command
             case "permanent":
                 if(commandSender.hasPermission("motdchanger.permanent")){
-                    changeMotd(true, motdString.toString());
+                    changeMotd(true, sb.toString());
+                    commandSender.sendMessage(ChatColor.AQUA + "[MotdChanger] " + ChatColor.GREEN + "MOTD changed permanent");
                     return true;
                 } else {
                     noPerms(commandSender);
@@ -72,6 +81,7 @@ public class motdchange implements CommandExecutor {
             case "reload":
                 if(commandSender.hasPermission("motdchanger.reload")) {
                     reload();
+                    commandSender.sendMessage(ChatColor.AQUA + "[MotdChanger] " + ChatColor.GREEN + "Reloaded successfully");
                     return true;
                 } else {
                     noPerms(commandSender);
@@ -107,13 +117,13 @@ public class motdchange implements CommandExecutor {
 
 
         sender.sendMessage(
-                ChatColor.AQUA + "[MotdChanger] " + ChatColor.GREEN + "Hello, " + ChatColor.ITALIC + "" + ChatColor.RED + sender.getName() + ChatColor.RESET + "" + ChatColor.GREEN + ", the commands available for you are:\n"+allowedCommands
+                ChatColor.AQUA + "[MotdChanger] " + ChatColor.GREEN + " Hello, " + ChatColor.ITALIC + "" + ChatColor.RED + sender.getName() + ChatColor.RESET + "" + ChatColor.GREEN + ", the commands available for you are:\n"+allowedCommands
         );
     }
 
     void infoShow(CommandSender sender) {
         sender.sendMessage(
-                ChatColor.AQUA + "[MotdChanger] " + ChatColor.GREEN + "This plugin is made by DarkDragon\nVisit him in his spigot page to see other projects: "
+                ChatColor.AQUA + "[MotdChanger] " + ChatColor.GREEN + " This plugin is made by DarkDragon\nVisit him in his spigot page to see other projects: "
                 + ChatColor.YELLOW + "spigotmc.org/members/598499/ \n"+ ChatColor.GREEN + "This plugin is in the version 2.0. You can check more details in the plugin's page: "
                 + ChatColor.YELLOW + "spigotmc.org/resources/63607/ \n"+ ChatColor.GREEN + "If you really like this plugin you can help it's author by donating and/or giving your review about the plugin in spigot"
         );
