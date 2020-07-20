@@ -1,13 +1,10 @@
 package dev.darkdragon.motdchanger;
 
 import org.bukkit.ChatColor;
-import org.bukkit.plugin.Plugin;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -28,7 +25,6 @@ public class Updater {
                 plugin.sendMessage(ChatColor.RED + "Couldn't connect to Spigot, no updates available");
                 e.printStackTrace();
             }
-
         }
     }
 
