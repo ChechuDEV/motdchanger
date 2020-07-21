@@ -128,7 +128,7 @@ public class motdchange implements CommandExecutor, TabCompleter {
     void infoShow(CommandSender sender) {
         sender.sendMessage(
                 ChatColor.AQUA + "[MotdChanger] " + ChatColor.GREEN + " This plugin is made by DarkDragon\nVisit him in his spigot page to see other projects: "
-                + ChatColor.YELLOW + "spigotmc.org/members/598499/ \n"+ ChatColor.GREEN + "This plugin is in the version 2.0. You can check more details in the plugin's page: "
+                + ChatColor.YELLOW + "spigotmc.org/members/598499/ \n"+ ChatColor.GREEN + "This plugin is in the version "+ plugin.getDescription().getVersion() + ". You can check more details in the plugin's page: "
                 + ChatColor.YELLOW + "spigotmc.org/resources/63607/ \n"+ ChatColor.GREEN + "If you really like this plugin you can help it's author by donating and/or giving your review about the plugin in spigot"
         );
     }
