@@ -1,8 +1,8 @@
 name: MotdChanger
-version: 2.0
+version: 2.0.1
 author: DarkDragon
 main: dev.darkdragon.motdchanger.motdchanger
-api-version: 1.16
+api-version: "1.13"
 website: darkdragon.dev
 load: STARTUP
 prefix: MotdChanger
