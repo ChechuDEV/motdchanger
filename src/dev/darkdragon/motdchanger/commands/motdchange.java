@@ -138,6 +138,7 @@ public class motdchange implements CommandExecutor, TabCompleter {
 
         if (permanent) {
             plugin.getConfig().set("permanent-motd",motd);
+            plugin.saveConfig();
         }
     }
 
