@@ -1,5 +1,5 @@
 name: MotdChanger
-version: 2.0.1
+version: 2.1.0
 author: DarkDragon
 main: dev.darkdragon.motdchanger.motdchanger
 api-version: "1.13"
@@ -26,6 +26,11 @@ permissions:
     default: op
     children:
       motdchanger: true
+  motdchanger.togglerotation:
+    descriptions: Allows to toggle random rotation of MOTDs
+    default: op
+    children:
+      motdchanger: true
   motdchanger.*:
     description: All the permissions
     default: op
@@ -34,6 +39,7 @@ permissions:
       motdchanger.permanent: true
       motdchanger.temporary: true
       motdchanger.reload: true
+      motdchanger.togglerotation: true
 commands:
   motdchange:
     description: The main command
