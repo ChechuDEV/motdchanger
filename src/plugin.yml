@@ -1,5 +1,5 @@
 name: MotdChanger
-version: 2.1.0
+version: 2.1.1
 author: DarkDragon
 main: dev.darkdragon.motdchanger.motdchanger
 api-version: "1.13"
