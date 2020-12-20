@@ -6,14 +6,18 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class motdchange implements CommandExecutor, TabCompleter {
     motdchanger plugin;
+    boolean rotation;
     public motdchange(motdchanger pl) {
         plugin = pl;
     }
@@ -89,12 +93,29 @@ public class motdchange implements CommandExecutor, TabCompleter {
                     noPerms(commandSender);
                     return false;
                 }
+            // Toggle rotation
+            case "togglerotation":
+                if(commandSender.hasPermission("motdchanger.togglerotation")) {
+                    toggleRotation();
+                    commandSender.sendMessage(ChatColor.AQUA + "[MOTDChanger] " + ChatColor.GREEN + "MOTD rotation toggled to " + rotation);
+                    return true;
+                } else {
+                    noPerms(commandSender);
+                    return false;
+                }
             default:
                 commandSender.sendMessage(ChatColor.RED + "[MotdChanger] Command not found");
         }
 
 
         return false;
+    }
+
+    private void toggleRotation() {
+        rotation = plugin.getConfig().getBoolean("rotation");
+        rotation = !rotation;
+        plugin.getConfig().set("rotation", rotation);
+        plugin.saveConfig();
     }
 
     void helpShow(CommandSender sender) {
@@ -113,6 +134,11 @@ public class motdchange implements CommandExecutor, TabCompleter {
         if(sender.hasPermission("motdchanger.permanent")){
             allowedCommands += ChatColor.GOLD + "/motdchange permanent <motd>\n" + ChatColor.AQUA + "- Allows you to change the server MOTD permanently. Meaning that even if you restart the server, this motd will apear until you change it from the config.yml file or use this command another time to change it\n";
         }
+
+        if(sender.hasPermission("motdchanger.togglerotation")) {
+            allowedCommands += ChatColor.GOLD + "/motdchange togglerotation\n" + ChatColor.AQUA + "- Allows you to toggle random MOTD rotation.";
+        }
+
 
         // Checks if sender has motdchanger.reload permission to add it to the text
         if(sender.hasPermission("motdchanger.reload")) {
@@ -137,9 +163,16 @@ public class motdchange implements CommandExecutor, TabCompleter {
         plugin.Motd = motd;
 
         if (permanent) {
-            plugin.getConfig().set("permanent-motd",motd);
-            plugin.saveConfig();
+            File motds = new File(plugin.getDataFolder(), "motds.yml");
+            FileConfiguration motdsFile = YamlConfiguration.loadConfiguration(motds);
+            motdsFile.set("permanent-motd",motd);
+            try {
+                motdsFile.save(motds);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     void reload() {
@@ -148,8 +181,9 @@ public class motdchange implements CommandExecutor, TabCompleter {
             plugin.sendMessage("Config file doesn't exists, creating one");
             plugin.saveResource("config.yml", false);
         }
-
-        plugin.Motd = plugin.getConfig().getString("permanent-motd");
+        File motds = new File(plugin.getDataFolder(), "motds.yml");
+        FileConfiguration motdsFile = YamlConfiguration.loadConfiguration(motds);
+        plugin.Motd = motdsFile.getString("permanent-motd");
     }
     void noPerms(CommandSender sender) {
         sender.sendMessage(ChatColor.RED + "[MotdChanger] You do not have permissions for this command!");
@@ -164,6 +198,7 @@ public class motdchange implements CommandExecutor, TabCompleter {
                 completion.add("info");
                 if(commandSender.hasPermission("motdchanger.temporary")) completion.add("temporary");
                 if(commandSender.hasPermission("motdchanger.permanent")) completion.add("permanent");
+                if(commandSender.hasPermission("motdchanger.togglerotation")) completion.add("togglerotation");
                 if(commandSender.hasPermission("motdchanger.reload")) completion.add("reload");
                 return completion;
             }
