@@ -136,7 +136,7 @@ public class motdchange implements CommandExecutor, TabCompleter {
         }
 
         if(sender.hasPermission("motdchanger.togglerotation")) {
-            allowedCommands += ChatColor.GOLD + "/motdchange togglerotation\n" + ChatColor.AQUA + "- Allows you to toggle random MOTD rotation.";
+            allowedCommands += ChatColor.GOLD + "/motdchange togglerotation\n" + ChatColor.AQUA + "- Allows you to toggle random MOTD rotation.\n";
         }
 
 
