@@ -5,20 +5,23 @@ import dev.darkdragon.motdchanger.events.motdchangeevent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class motdchanger extends JavaPlugin {
     public String Motd = "";
+
     @Override
     public void onEnable() {
         // Ad text
         sendMessage("This plugin has been made by me, DarkDragon. I would be very grateful if you share and rate the plugin in its spigot page: " + ChatColor.GREEN + " spigot.org/resources/63607/");
-
         // Main command initialization
         PluginCommand motdchange = this.getCommand("motdchange");
         assert motdchange != null;
@@ -32,10 +35,37 @@ public class motdchanger extends JavaPlugin {
         if(!configFile.exists()){
             sendMessage("Config file doesn't exists, creating one");
             saveResource("config.yml", false);
+        } else {
+            if(!getConfig().contains("metrics")) getConfig().set("metrics", true);
+            if(!getConfig().contains("checkupdates")) getConfig().set("checkupdates", true);
+            if(!getConfig().contains("autoupdate")) getConfig().set("autoupdate", true);
+            if(!getConfig().contains("rotation")) getConfig().set("rotation", true);
+            saveConfig();
+        }
+        File motds = new File(getDataFolder(), "motds.yml");
+        FileConfiguration motdsFile = YamlConfiguration.loadConfiguration(motds);
+        if(!motds.exists()) {
+            sendMessage("MOTDs file doesn't exists, creating one");
+            saveResource("motds.yml", false);
+            Motd = "§bServer is running smooth...%newline%&6Be happy!";
+        } else {
+            if(!motdsFile.contains("permanent-motd")) {
+                motdsFile.set("permanent-motd","§bServer is running smooth...%newline%&6Be happy!");
+                Motd = "§bServer is running smooth...%newline%&6Be happy!";
+            } else {
+                Motd = motdsFile.getString("permanent-motd");
+            }
+            for ( int i = 1; i <= 10; i++) {
+                if(!motdsFile.contains("motd-rotation"+i)) motdsFile.set("motd-rotation"+i, "");
+            }
+            try {
+                motdsFile.save(motds);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        // Sets motd to the config file MOTD
-        Motd = getConfig().getString("permanent-motd");
+
 
         // Checks if server wants to be tracked with bstats metrics
         if(getConfig().getBoolean("metrics",true)) {
