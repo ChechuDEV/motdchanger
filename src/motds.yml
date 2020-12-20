@@ -1,0 +1,23 @@
+# Newline: %newline%
+# Colors: as Essentials does, & symbol
+# Modify this to have another motd
+# After changing permanent-motd use /setmotd reload (If you have set any temporary motd it will be lost)
+# There are up to 10 MOTDs for the Rotation function:
+# There is no need to use /setmotd reload after setting motd-rotation, only you have to set to true roation in config.yml or via ingame command /motdchange togglerotation.
+# The plugin will get a random motd rotation
+# Rotating MOTDs must be set next to each other, plugin won't recognize any MOTDs after an empty one
+# You can put less than 10, no need to fill them all.
+permanent-motd: "§bServer is running smooth...%newline%&6Be happy!"
+motd-rotation1: ""
+motd-rotation2: ""
+motd-rotation3: ""
+motd-rotation4: ""
+motd-rotation5: ""
+motd-rotation6: ""
+motd-rotation7: ""
+motd-rotation8: ""
+motd-rotation9: ""
+motd-rotation10: ""
+
+
+
