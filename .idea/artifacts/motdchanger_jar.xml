@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="motdchanger:jar">
-    <output-path>$USER_HOME$/OneDrive/Escritorio/Server Minecraft/plugins</output-path>
-    <root id="archive" name="motdchanger.jar">
-      <element id="module-output" name="motdchanger" />
-    </root>
-  </artifact>
-</component>
