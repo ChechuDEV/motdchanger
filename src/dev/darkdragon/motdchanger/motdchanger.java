@@ -11,6 +11,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -31,10 +33,19 @@ public class motdchanger extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new motdchangeevent(this),this);
 
         // Checks if config file exists
+        InputStream configIS = getResource("config.yml");
         File configFile = new File(getDataFolder(), "config.yml");
+        if(!getDataFolder().exists()) {
+            sendMessage("Plugin folder not found, creating one");
+            getDataFolder().mkdir();
+        }
         if(!configFile.exists()){
-            sendMessage("Config file doesn't exists, creating one");
-            saveResource("config.yml", false);
+            sendMessage("Config file doesn't exist, creating one");
+            try {
+                Files.copy(configIS, configFile.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
             if(!getConfig().contains("metrics")) getConfig().set("metrics", true);
             if(!getConfig().contains("checkupdates")) getConfig().set("checkupdates", true);
@@ -42,11 +53,16 @@ public class motdchanger extends JavaPlugin {
             if(!getConfig().contains("rotation")) getConfig().set("rotation", true);
             saveConfig();
         }
+        InputStream motdsIS = getResource("motds.yml");
         File motds = new File(getDataFolder(), "motds.yml");
         FileConfiguration motdsFile = YamlConfiguration.loadConfiguration(motds);
         if(!motds.exists()) {
             sendMessage("MOTDs file doesn't exists, creating one");
-            saveResource("motds.yml", false);
+            try {
+                Files.copy(motdsIS, motds.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             Motd = "§bServer is running smooth...%newline%&6Be happy!";
         } else {
             if(!motdsFile.contains("permanent-motd")) {
