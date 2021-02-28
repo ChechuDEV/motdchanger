@@ -1,17 +1,16 @@
+#  WARNING: Unless you are 200% sure that you cannot break this file by changing the following configuration, don't modify it (use in-game/console commands instead).
+#  %newline% is not supported in this file, it is in-game though.
+#  To set colors, you can either use Minecraft's way (§) or the plugins' famous way (&).
+#  This page can help you both ways https://minecraft.gamepedia.com/Formatting_codes
+#  Using "/motdchange reload" is strictly necessary after modifying this file
+
 metrics: true
-checkupdates: true
+check-updates: true
 rotation: false
 
-# MOTDs configuration
-# WARNING: Unless you are 100% sure that you can't break this file changing the following configuration, don't modify it (use in-game/console commands instead).
-# %newline% is not supported in this file, it is in-game though.
-# To set colors, you can either use Minecraft's way (§) or the plugins' famous way (&).
-# This page can help you both ways https://minecraft.gamepedia.com/Formatting_codes
-# Using "/motdchange reload" is strictly necessary after modifying this file
-
 permanent-motd:
-  - "§bServer is running smooth..." # Line 1
-  - "&6Be happy!" # Line 2
+  - '§bServer is running smooth...' #  Line 1
+  - '&6Be happy!' #  Line 2
 rotating-motds:
-  - - "§bServer is rotating smooth..." # Line 1 from first rotating MOTD
-    - "&6Rotate happily!" # Line 2 from first rotating MOTD
+  - - '§bServer is rotating smooth...' #  Line 1 from first rotating MOTD
+    - '&6Rotate happily!' #  Line 2 from first rotating MOTD
