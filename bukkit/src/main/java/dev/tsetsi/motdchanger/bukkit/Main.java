@@ -36,7 +36,7 @@ public final class Main extends JavaPlugin {
             getConfig().set("check-updates",true);
             migrated = true;
         }
-        if (!getConfig().contains("rotation")) getConfig().set("rotation",true);
+        if (!getConfig().contains("rotation")) getConfig().set("rotation",false);
         if (getConfig().contains("permanent-motd") && !(getConfig().get("permanent-motd") instanceof List)) {
             String[] lines = getConfig().getString("permanent-motd").split("%newline%",2);
             List<String> permanentMotd = new ArrayList<>(Arrays.asList(lines));
