@@ -1,0 +1,44 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'java'
+}
+
+version = '2.1.1'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://papermc.io/repo/repository/maven-public/'
+    }
+    maven {
+        url "https://libraries.minecraft.net/"
+    }
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+}
+
+dependencies {
+    compileOnly 'com.destroystokyo.paper:paper-api:1.13.2-R0.1-SNAPSHOT'
+    implementation 'me.lucko:commodore:1.9'
+}
+
+shadowJar {
+    getDestinationDirectory().set(new File(projectDir, "../build/bukkit"))
+    archiveFileName = "motdchanger-bukkit-v${project.version}.jar"
+    relocate 'me.lucko.commodore', 'dev.tsetsi.motdchanger.bukkit.commodore'
+}
+
+artifacts {
+    archives shadowJar
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        filter ReplaceTokens, tokens: [version: version]
+    }
+}
+
+build.dependsOn shadowJar

@@ -1,0 +1,5 @@
+rootProject.name = 'motdchanger'
+
+include (
+        'bukkit'
+)
