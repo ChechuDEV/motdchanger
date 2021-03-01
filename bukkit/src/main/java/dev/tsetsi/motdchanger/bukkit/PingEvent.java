@@ -1,5 +1,7 @@
 package dev.tsetsi.motdchanger.bukkit;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
@@ -18,7 +20,9 @@ public class PingEvent implements Listener {
     private List<String> getRandomMotd() throws Exception {
         int n = (int) (Math.random() * (Objects.requireNonNull(plugin.getConfig().getList("rotating-motds")).size()));
         if ( plugin.getConfig().getList("rotating-motds").get(n) instanceof List) {
-            List<String> randomMotd = (List<String>) plugin.getConfig().getList("rotating-motds").get(n);
+            // (List<String>) plugin.getConfig().getList("rotating-motds").get(n);
+            Gson gson = new Gson();
+            List<String> randomMotd = gson.fromJson(gson.toJson(Objects.requireNonNull(plugin.getConfig().getList("rotating-motds")).get(n)), new TypeToken<List<String>>(){}.getType());
             if (randomMotd.size() != 2) throw new Exception("There is an error in your config.yml file");
             return randomMotd;
         }
@@ -33,7 +37,7 @@ public class PingEvent implements Listener {
                 plugin.getLogger().info(randomMotd.get(0));
                 plugin.getLogger().info(randomMotd.get(1));
                 // FIXME Â SHOWING BEFORE REPLACED & to §
-                e.setMotd(randomMotd.get(0).replaceAll("&","§") + "\n" + randomMotd.get(1).replace("&","§"));
+                e.setMotd(randomMotd.get(0).replace("Â&","&") + "\n§r" + randomMotd.get(1).replace("Â&","&"));
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
