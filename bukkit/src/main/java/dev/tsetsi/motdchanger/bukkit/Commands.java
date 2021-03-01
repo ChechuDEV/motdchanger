@@ -1,7 +1,11 @@
 package dev.tsetsi.motdchanger.bukkit;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.*;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +24,9 @@ public class Commands implements CommandExecutor, TabExecutor {
         }
         switch (args[0]) {
             case "info":
-                info(sender);
+                // TODO LOCALE
+                sender.sendMessage(ChatColor.GREEN + "[MOTDChanger] " + ChatColor.YELLOW + "This plugin allows you to change your server's " +
+                        "MOTD easily and on the go! Get it on " + ChatColor.ITALIC + "" + ChatColor.BLUE + "spigotmc.org/resources/63607/");
                 return true;
             case "temporary":
                 changeMotd(sender, false, args);
@@ -53,7 +59,8 @@ public class Commands implements CommandExecutor, TabExecutor {
                         return true;
                 }
             default:
-                if (!args[0].equals("help")) sender.sendMessage(ChatColor.RED + "[MOTDChanger] The requested command does not exist.");
+                if (!args[0].equals("help"))
+                    sender.sendMessage(ChatColor.RED + "[MOTDChanger] The requested command does not exist.");
                 help(sender);
                 return true;
         }
@@ -62,14 +69,13 @@ public class Commands implements CommandExecutor, TabExecutor {
     private void help(CommandSender sender) {
 
     }
-    private void info(CommandSender sender) {
 
-    }
     private void reload(CommandSender sender) {
 
     }
-    private void changeMotd(CommandSender sender, boolean permanent, String[] args) {
 
+    private void changeMotd(CommandSender sender, boolean permanent, String[] args) {
+        // TODO FADING COLOUR
     }
 
     @Override
