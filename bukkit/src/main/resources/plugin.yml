@@ -1,0 +1,15 @@
+name: MOTDChanger
+version: @version@
+main: dev.tsetsi.motdchanger.bukkit.Main
+api-version: 1.13
+prefix: MOTDChanger
+load: STARTUP
+authors: [ Tsetsi ]
+description: A plugin that allows you to change your server's MOTD easily on the go!
+commands:
+  motdchanger:
+    aliases:
+      - motdchange
+      - setmotd
+    description: MOTDChanger's main command.
+    permission: motdchanger
