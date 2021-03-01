@@ -1,0 +1,21 @@
+motdchange {
+    help;
+    info;
+    reload;
+    temporary {
+        1 {
+            motd brigadier:string greedy_phrase;
+        }
+        2 {
+            motd brigadier:string greedy_phrase;
+        }
+    }
+    permanent {
+        1 {
+            motd brigadier:string greedy_phrase;
+        }
+        2 {
+            motd brigadier:string greedy_phrase;
+        }
+    }
+}
