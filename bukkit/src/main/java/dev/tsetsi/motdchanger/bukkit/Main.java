@@ -95,6 +95,10 @@ public final class Main extends JavaPlugin {
                 e.printStackTrace();
             }
         }
+
+        // EVENT REGISTER
+
+        getServer().getPluginManager().registerEvents(new PingEvent(this),this);
     }
 
 
