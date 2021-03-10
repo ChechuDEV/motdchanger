@@ -8,6 +8,7 @@ import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,14 +18,15 @@ public class PingEvent implements Listener {
         this.plugin = plugin;
     }
 
-    private List<String> getRandomMotd() throws Exception {
+    private String getRandomMotd() throws Exception {
         int n = (int) (Math.random() * (Objects.requireNonNull(plugin.getConfig().getList("rotating-motds")).size()));
         if ( plugin.getConfig().getList("rotating-motds").get(n) instanceof List) {
             // (List<String>) plugin.getConfig().getList("rotating-motds").get(n);
             Gson gson = new Gson();
             List<String> randomMotd = gson.fromJson(gson.toJson(Objects.requireNonNull(plugin.getConfig().getList("rotating-motds")).get(n)), new TypeToken<List<String>>(){}.getType());
             if (randomMotd.size() != 2) throw new Exception("There is an error in your config.yml file");
-            return randomMotd;
+            String refractoredMotd = randomMotd.get(0) + "\n" + randomMotd.get(1);
+            return refractoredMotd;
         }
         else throw new Exception("There is an error in your config.yml file");
     }
@@ -33,11 +35,9 @@ public class PingEvent implements Listener {
     public void onServerPing(ServerListPingEvent e) {
         if (plugin.getConfig().getBoolean("rotation") && Objects.requireNonNull(plugin.getConfig().getList("rotating-motds")).size() != 0) {
             try {
-                List<String> randomMotd = getRandomMotd();
-                plugin.getLogger().info(randomMotd.get(0));
-                plugin.getLogger().info(randomMotd.get(1));
-                // FIXME Â SHOWING BEFORE REPLACED & to §
-                e.setMotd(randomMotd.get(0).replace("Â&","&") + "\n§r" + randomMotd.get(1).replace("Â&","&"));
+                String randomMotd = getRandomMotd();
+                plugin.getLogger().info(randomMotd);
+                e.setMotd(randomMotd);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
