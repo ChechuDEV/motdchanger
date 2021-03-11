@@ -11,6 +11,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class Commands implements CommandExecutor, TabExecutor {
+    Motd motd;
+    public Commands(Motd motd) {
+        this.motd = motd;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         // CHECK FOR SENDER'S PERMISSIONS
