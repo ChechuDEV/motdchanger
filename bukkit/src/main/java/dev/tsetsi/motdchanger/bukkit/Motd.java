@@ -6,41 +6,47 @@ import java.util.Arrays;
 
 public class Motd {
     Plugin plugin;
-    String temporaryMotd = "";
+    String motd = "";
     public Motd(Plugin plugin) {
         this.plugin = plugin;
+        this.motd = getPermanent();
     }
 
     public void setMotd(String text, int line, boolean permanent) {
-        String motd = permanent ? getPermanent() : getTemporary();
-        String[] splitMotd = motd.split("\n");
+        // DO EITHER PERMANENT OR TEMPORARY?
+        String motd = getMotd();
+        String[] splitMotd = motd.split("%newline%");
         StringBuilder newMotd = new StringBuilder();
         if(line == 2){
             if(splitMotd.length >= 2) newMotd.append(splitMotd[0]);
-            newMotd.append("\n");
+            newMotd.append("%newline%");
         }
         newMotd.append(fixColors(text));
         if (line == 1){
-            newMotd.append("\n");
+            newMotd.append("%newline%");
             if(splitMotd.length >= 2) newMotd.append(splitMotd[1]);
         }
         if(permanent) setPermanent(newMotd.toString()); else setTemporary(newMotd.toString());
     }
 
     public void setPermanent(String motd) {
-        plugin.getConfig().set("permanent-motd", motd);
+        if(motd.equals("%motdchangerpermanent%")) this.motd = getPermanent();
+        else {
+            plugin.getConfig().set("permanent-motd", motd);
+            this.motd = motd;
+        }
     }
 
     public String getPermanent() {
-        return plugin.getConfig().getString("permanent-motd");
+        return plugin.getConfig().getString("permanent-motd").replace("%newline%","\n");
     }
 
     public void setTemporary(String motd) {
-        temporaryMotd = motd;
+        this.motd = motd;
     }
 
-    public String getTemporary() {
-        return temporaryMotd;
+    public String getMotd() {
+        return this.motd;
     }
 
     // Replaces all the colors with & symbol to § symbol ones without replacing all the & (Because they may mean AND instead of Color)
