@@ -7,6 +7,6 @@ metrics: true
 check-updates: true
 rotation: false
 
-permanent-motd: '§bServer is running smooth...\n§6Be happy!'
+permanent-motd: '§bServer is running smooth...%newline%§6Be happy!'
 rotating-motds:
-  - '§bServer is rotating smooth...\n§6Rotate happily!' #  First rotating motd
+  - '§bServer is rotating smooth...%newline%§6Rotate happily!' #  First rotating motd
