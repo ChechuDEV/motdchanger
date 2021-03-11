@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 
 public final class Main extends JavaPlugin {
     private Logger logger;
-
     @Override
     public void onEnable() {
         logger = getLogger();
@@ -23,6 +22,7 @@ public final class Main extends JavaPlugin {
         saveDefaultConfig();
 
         // CONFIGURATION MIGRATION
+        // TODO REDUCE ALL THIS WITH MOTD OBJECT
         boolean migrated = false;
         if (!getConfig().contains("metrics")) getConfig().set("metrics",true);
         if (!getConfig().contains("check-updates")) if(getConfig().contains("checkupdates")) {
@@ -34,20 +34,18 @@ public final class Main extends JavaPlugin {
             migrated = true;
         }
         if (!getConfig().contains("rotation")) getConfig().set("rotation",false);
-        if (getConfig().contains("permanent-motd") && !(getConfig().get("permanent-motd") instanceof List) && getConfig().get("permanent-motd") != "") {
-            String[] lines = Objects.requireNonNull(getConfig().getString("permanent-motd")).split("%newline%",2);
-            List<String> permanentMotd = new ArrayList<>(Arrays.asList(lines));
-            if (!Objects.requireNonNull(getConfig().getString("permanent-motd")).contains("%newline%")) permanentMotd.add("");
+        if (getConfig().contains("permanent-motd") && !(getConfig().get("permanent-motd") instanceof String) && getConfig().get("permanent-motd") != "") {
+            String permanentMotd = Objects.requireNonNull(getConfig().getString("permanent-motd"));
             getConfig().set("permanent-motd", permanentMotd);
             migrated = true;
         } else if (!getConfig().contains("permanent-motd")) {
-            List<String> permanentMotd = new ArrayList<>(Arrays.asList("§bServer is running smooth...", "&6Be happy!"));
+            String permanentMotd = "§bServer is rotating smooth...%newline%§6Rotate happily!";
             getConfig().set("permanent-motd", permanentMotd);
             migrated = true;
         }
         if (!getConfig().contains("rotating-motds")) {
-            List<String> rotatingMotd = new ArrayList<>(Arrays.asList("§bServer is rotating smooth...","&6Rotate happily!"));
-            List<List<String>> rotatingMotds = new ArrayList<>(Collections.singletonList(rotatingMotd));
+            String rotatingMotd = "§bServer is rotating smooth...%newline%§6Rotate happily!";
+            List<String> rotatingMotds = Collections.singletonList(rotatingMotd);
             getConfig().set("rotating-motds",rotatingMotds);
             migrated = true;
         }
@@ -57,18 +55,14 @@ public final class Main extends JavaPlugin {
             logger.info("Your configuration file will be updated with your configuration in motds.yml.");
             FileConfiguration motdsFile = YamlConfiguration.loadConfiguration(oldMotdFile);
             if (motdsFile.contains("permanent-motd") && motdsFile.get("permanent-motd") != "" && motdsFile.get("permanent-motd") instanceof String) {
-                String[] lines = Objects.requireNonNull(motdsFile.getString("permanent-motd")).split("%newline%",2);
-                List<String> permanentMotd = new ArrayList<>(Arrays.asList(lines));
-                if (!Objects.requireNonNull(motdsFile.getString("permanent-motd")).contains("%newline%")) permanentMotd.add("");
+                String permanentMotd = Objects.requireNonNull(motdsFile.getString("permanent-motd"));
                 getConfig().set("permanent-motd", permanentMotd);
                 migrated = true;
             }
-            List<List<String>> rotatingMotds = new ArrayList<>();
+            List<String> rotatingMotds = new ArrayList<>();
             for (int i = 1; i <= 10; i++) {
                 if (motdsFile.contains("motd-rotation"+i) && !Objects.equals(motdsFile.getString("motd-rotation" + i), "") && motdsFile.get("motd-rotation" + i) instanceof String){
-                    String[] lines = Objects.requireNonNull(motdsFile.getString("motd-rotation" + i)).split("%newline%",2);
-                    List<String> rotatingMotd = new ArrayList<>(Arrays.asList(lines));
-                    if (!Objects.requireNonNull(motdsFile.getString("motd-rotation" + i)).contains("%newline%")) rotatingMotd.add("");
+                    String rotatingMotd = Objects.requireNonNull(motdsFile.getString("motd-rotation" + i));
                     rotatingMotds.add(rotatingMotd);
                 }
                 if (i == 10) getConfig().set("rotating-motds", rotatingMotds);
@@ -83,9 +77,11 @@ public final class Main extends JavaPlugin {
         }
 
         // COMMAND CREATION
+        Motd motd = new Motd(this);
+
         PluginCommand command = getCommand("motdchange");
         assert command != null;
-        command.setExecutor(new Commands());
+        command.setExecutor(new Commands(motd));
 
         if (CommodoreProvider.isSupported()) {
             try {
@@ -97,10 +93,9 @@ public final class Main extends JavaPlugin {
         }
 
         // EVENT REGISTER
+        getServer().getPluginManager().registerEvents(new PingEvent(motd),this);
 
-        getServer().getPluginManager().registerEvents(new PingEvent(this),this);
     }
-
 
     @Override
     public void onDisable() {
