@@ -18,38 +18,19 @@ public final class Main extends JavaPlugin {
         logger = getLogger();
         logger.info("Remember to rate and share this plugin. You can also join my discord server: discord.darkdragon.dev");
 
+
+
         // CONFIGURATION FILE CREATION
         saveDefaultConfig();
 
         // CONFIGURATION MIGRATION
         // TODO REDUCE ALL THIS WITH MOTD OBJECT
-        boolean migrated = false;
-        if (!getConfig().contains("metrics")) getConfig().set("metrics",true);
-        if (!getConfig().contains("check-updates")) if(getConfig().contains("checkupdates")) {
-            getConfig().set("check-updates",getConfig().get("checkupdates"));
-            getConfig().set("checkupdates",null);
-            migrated = true;
-        } else {
-            getConfig().set("check-updates",true);
-            migrated = true;
-        }
-        if (!getConfig().contains("rotation")) getConfig().set("rotation",false);
-        if (getConfig().contains("permanent-motd") && !(getConfig().get("permanent-motd") instanceof String) && getConfig().get("permanent-motd") != "") {
-            String permanentMotd = Objects.requireNonNull(getConfig().getString("permanent-motd"));
-            getConfig().set("permanent-motd", permanentMotd);
-            migrated = true;
-        } else if (!getConfig().contains("permanent-motd")) {
-            String permanentMotd = "§bServer is rotating smooth...%newline%§6Rotate happily!";
-            getConfig().set("permanent-motd", permanentMotd);
-            migrated = true;
-        }
-        if (!getConfig().contains("rotating-motds")) {
-            String rotatingMotd = "§bServer is rotating smooth...%newline%§6Rotate happily!";
-            List<String> rotatingMotds = Collections.singletonList(rotatingMotd);
-            getConfig().set("rotating-motds",rotatingMotds);
-            migrated = true;
-        }
-
+        boolean migrated;
+        migrated = permanentMOTDCorrector();
+        migrated = metricsCorrector() || migrated;
+        migrated = updateCorrector() || migrated;
+        migrated = rotationCorrector() || migrated;
+        migrated = rotatingMOTDSCorrector() || migrated;
         File oldMotdFile = new File(getDataFolder(), "motds.yml");
         if (oldMotdFile.exists()) {
             logger.info("Your configuration file will be updated with your configuration in motds.yml.");
@@ -77,7 +58,7 @@ public final class Main extends JavaPlugin {
         }
 
         // COMMAND CREATION
-        Motd motd = new Motd(this);
+        MOTD motd = new MOTD(this);
 
         PluginCommand command = getCommand("motdchange");
         assert command != null;
@@ -95,6 +76,52 @@ public final class Main extends JavaPlugin {
         // EVENT REGISTER
         getServer().getPluginManager().registerEvents(new PingEvent(motd),this);
 
+    }
+
+    private boolean permanentMOTDCorrector() {
+        if (!getConfig().contains("permanent-motd") || !(getConfig().get("permanent-motd") instanceof String)) {
+            getConfig().set("permanent-motd","§bServer is running smooth...%newline%§6Be happy!");
+            return true;
+        }
+        return false;
+    }
+
+    private boolean metricsCorrector() {
+        if (!getConfig().contains("metrics") || !(getConfig().get("metrics") instanceof Boolean)) {
+            getConfig().set("metrics", true);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean updateCorrector() {
+        if (getConfig().contains("checkupdates") && getConfig().get("checkupdates") instanceof Boolean) {
+            getConfig().set("check-updates", getConfig().get("checkupdates"));
+            getConfig().set("checkupdates",null);
+            return true;
+        }
+        if (!getConfig().contains("check-updates") || !(getConfig().get("check-updates") instanceof Boolean)) {
+            getConfig().set("check-updates", true);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean rotationCorrector() {
+        if (!getConfig().contains("rotation") || !(getConfig().get("rotation") instanceof Boolean)) {
+            getConfig().set("rotation", false);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean rotatingMOTDSCorrector() {
+        if (!getConfig().contains("rotating-motds") || !(getConfig().get("rotating-motds") instanceof List)) {
+            List<String> rotatingMotds = Collections.singletonList("§bServer is rotating smooth...%newline%§6Rotate happily!");
+            getConfig().set("rotating-motds",rotatingMotds);
+            return true;
+        }
+        return false;
     }
 
     @Override
