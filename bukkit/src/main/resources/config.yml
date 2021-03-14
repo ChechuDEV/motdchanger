@@ -6,6 +6,7 @@
 metrics: true
 check-updates: true
 rotation: false
+rotating-mode: random
 
 permanent-motd: '§bServer is running smooth...%newline%§6Be happy!'
 rotating-motds:
