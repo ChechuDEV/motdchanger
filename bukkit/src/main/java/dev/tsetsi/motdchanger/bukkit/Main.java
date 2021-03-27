@@ -18,40 +18,18 @@ public final class Main extends JavaPlugin {
         logger = getLogger();
         logger.info("Remember to rate and share this plugin. You can also join my discord server: discord.darkdragon.dev");
 
-
-
         // CONFIGURATION FILE CREATION
         saveDefaultConfig();
 
         // CONFIGURATION MIGRATION
-        // TODO REDUCE ALL THIS WITH MOTD OBJECT
         boolean migrated;
         migrated = permanentMOTDCorrector();
         migrated = metricsCorrector() || migrated;
         migrated = updateCorrector() || migrated;
         migrated = rotationCorrector() || migrated;
         migrated = rotatingMOTDSCorrector() || migrated;
-        File oldMotdFile = new File(getDataFolder(), "motds.yml");
-        if (oldMotdFile.exists()) {
-            logger.info("Your configuration file will be updated with your configuration in motds.yml.");
-            FileConfiguration motdsFile = YamlConfiguration.loadConfiguration(oldMotdFile);
-            if (motdsFile.contains("permanent-motd") && motdsFile.get("permanent-motd") != "" && motdsFile.get("permanent-motd") instanceof String) {
-                String permanentMotd = Objects.requireNonNull(motdsFile.getString("permanent-motd"));
-                getConfig().set("permanent-motd", permanentMotd);
-                migrated = true;
-            }
-            List<String> rotatingMotds = new ArrayList<>();
-            for (int i = 1; i <= 10; i++) {
-                if (motdsFile.contains("motd-rotation"+i) && !Objects.equals(motdsFile.getString("motd-rotation" + i), "") && motdsFile.get("motd-rotation" + i) instanceof String){
-                    String rotatingMotd = Objects.requireNonNull(motdsFile.getString("motd-rotation" + i));
-                    rotatingMotds.add(rotatingMotd);
-                }
-                if (i == 10) getConfig().set("rotating-motds", rotatingMotds);
-                migrated = true;
-            }
-            File endMotdFile = new File(getDataFolder(), "oldmotds.yml");
-            if(oldMotdFile.renameTo(endMotdFile)) logger.info("The motds.yml file has been renamed to oldmotds.yml.");
-        }
+        migrated = migrateOldMotd() || migrated;
+
         if(migrated) {
             saveConfig();
             logger.info("Your configuration has migrated to a new version, please check that everything is okay. Comments may be deprecated...");
@@ -59,11 +37,11 @@ public final class Main extends JavaPlugin {
 
         // COMMAND CREATION
         MOTD motd = new MOTD(this);
-
         PluginCommand command = getCommand("motdchange");
         assert command != null;
         command.setExecutor(new Commands(motd));
 
+        // COMMODORE
         if (CommodoreProvider.isSupported()) {
             try {
                 Commodore commodore = CommodoreProvider.getCommodore(this);
@@ -119,6 +97,30 @@ public final class Main extends JavaPlugin {
         if (!getConfig().contains("rotating-motds") || !(getConfig().get("rotating-motds") instanceof List)) {
             List<String> rotatingMotds = Collections.singletonList("§bServer is rotating smooth...%newline%§6Rotate happily!");
             getConfig().set("rotating-motds",rotatingMotds);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean migrateOldMotd() {
+        File oldMotdFile = new File(getDataFolder(),"motds.yml");
+        if(oldMotdFile.exists()) {
+            logger.info("Your configuration file will be updated with your old configuration in motds.yml");
+            FileConfiguration motdsFile = YamlConfiguration.loadConfiguration(oldMotdFile);
+            if (motdsFile.contains("permanent-motd") && motdsFile.get("permanent-motd") != "" && motdsFile.get("permanent-motd") instanceof String) {
+                String permanentMotd = Objects.requireNonNull(motdsFile.getString("permanent-motd"));
+                getConfig().set("permanent-motd", permanentMotd);
+            }
+            List<String> rotatingMotds = new ArrayList<>();
+            for (int i = 1; i <= 10; i++) {
+                if (motdsFile.contains("motd-rotation"+i) && !Objects.equals(motdsFile.getString("motd-rotation" + i), "") && motdsFile.get("motd-rotation" + i) instanceof String){
+                    String rotatingMotd = Objects.requireNonNull(motdsFile.getString("motd-rotation" + i));
+                    rotatingMotds.add(rotatingMotd);
+                }
+                if (i == 10) getConfig().set("rotating-motds", rotatingMotds);
+            }
+            File endMotdFile = new File(getDataFolder(), "oldmotds.yml");
+            if(oldMotdFile.renameTo(endMotdFile)) logger.info("The motds.yml file has been renamed to oldmotds.yml.");
             return true;
         }
         return false;
