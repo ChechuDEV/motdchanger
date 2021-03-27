@@ -2,7 +2,9 @@ package dev.tsetsi.motdchanger.bukkit;
 
 import org.bukkit.plugin.Plugin;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class MOTD {
     Plugin plugin;
@@ -55,7 +57,24 @@ public class MOTD {
 
     // GET CURRENT MOTD
     public String getMOTD() {
+        if ( isRotationEnabled() ) {
+            List<String> rotatingMOTDs = getRotatingMOTDs();
+            Random random = new Random();
+            return rotatingMOTDs.get(random.nextInt(rotatingMOTDs.size()));
+        }
         return this.mOTD;
+    }
+
+    private boolean isRotationEnabled() {
+        return plugin.getConfig().getBoolean("rotation");
+    }
+
+    private String getRotationMode() {
+        return plugin.getConfig().getString("rotation-mode");
+    }
+
+    private List<String> getRotatingMOTDs() {
+        return plugin.getConfig().getStringList("rotating-motds");
     }
 
     //  * ENHANCERS
