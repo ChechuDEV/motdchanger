@@ -48,6 +48,11 @@ public class MOTD {
         this.mOTD = mOTD;
     }
 
+    // SET ROTATION
+    public void setRotationEnabled(boolean enabled) {
+        plugin.getConfig().set("rotation",enabled);
+    }
+
     //  * GETTERS
 
     // GET PERMANENT MOTD
@@ -65,13 +70,13 @@ public class MOTD {
         return this.mOTD;
     }
 
-    private boolean isRotationEnabled() {
+    public boolean isRotationEnabled() {
         return plugin.getConfig().getBoolean("rotation");
     }
 
-    private String getRotationMode() {
+/*    private String getRotationMode() {
         return plugin.getConfig().getString("rotation-mode");
-    }
+    }*/
 
     private List<String> getRotatingMOTDs() {
         return plugin.getConfig().getStringList("rotating-motds");

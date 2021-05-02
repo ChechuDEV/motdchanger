@@ -44,34 +44,36 @@ public class Commands implements CommandExecutor, TabExecutor {
             case "rotation":
                 switch (args[1]) {
                     case "toggle":
-                        // TODO TOGGLE
+                        motd.setRotationEnabled(!motd.isRotationEnabled());
                         return true;
                     case "enable":
-                        // TODO TOGGLE TO ENABLE
+                        motd.setRotationEnabled(true);
                         return true;
                     case "disable":
-                        // TODO: 27/02/2021
+                        motd.setRotationEnabled(false);
                         return true;
                     case "set":
-                        // TODO: 27/02/2021
+                        sender.sendMessage(ChatColor.RED + "[MOTDChanger] I am still working on this command so it doesn't work.");
+                        // TODO: 27/02/2021 SET
                         return true;
                     case "remove":
-                        // TODO: 27/02/2021
+                        sender.sendMessage(ChatColor.RED + "[MOTDChanger] I am still working on this command so it doesn't work.");
+                        // TODO: 27/02/2021 REMOVE
                         return true;
                     default:
-                        // TODO: 27/02/2021
+                        help(sender,"rotation");
                         return true;
                 }
             default:
                 if (!args[0].equals("help"))
                     sender.sendMessage(ChatColor.RED + "[MOTDChanger] The requested command does not exist.");
-                help(sender);
+                help(sender, "all");
                 return true;
         }
     }
 
-    private void help(CommandSender sender) {
-
+    private void help(CommandSender sender, String request) {
+        sender.sendMessage(ChatColor.GREEN + String.format("[MOTDChanger] Helping with %s commands", request));
     }
 
     private void reload(CommandSender sender) {
