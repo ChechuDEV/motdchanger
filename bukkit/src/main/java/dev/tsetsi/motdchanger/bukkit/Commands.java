@@ -6,6 +6,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class Commands implements CommandExecutor, TabExecutor {
             return true;
         }
         if (args.length == 0) {
-            help(sender);
+            help(sender, "all");
             return true;
         }
         switch (args[0]) {
@@ -73,7 +75,44 @@ public class Commands implements CommandExecutor, TabExecutor {
     }
 
     private void help(CommandSender sender, String request) {
-        sender.sendMessage(ChatColor.GREEN + String.format("[MOTDChanger] Helping with %s commands", request));
+        sender.sendMessage(ChatColor.GREEN + String.format("[MOTDChanger] Helping with %s commands...", request));
+        List<String> helps = new ArrayList<>();
+        if (request.equals("all")){
+            helps.addAll(getAllCommands(sender));
+        }
+        helps.addAll(getRotationCommands(sender));
+        for (String help : helps) {
+            sender.sendMessage(help);
+        }
+    }
+
+    private List<String> getRotationCommands(CommandSender sender) {
+        List<String> helps = new ArrayList<>();
+        if (sender.hasPermission("motdchanger.rotation")){
+            if (sender.hasPermission("motdchanger.rotation.toggle"))
+                helps.addAll(Arrays.asList(ChatColor.DARK_AQUA + "/motdchanger rotation toggle " + ChatColor.WHITE + "- " + ChatColor.AQUA + "Allows you to toggle rotation mode.",
+                        ChatColor.DARK_AQUA + "/motdchanger rotation enable/disable " + ChatColor.WHITE + "- " + ChatColor.AQUA + "Allows you to enable or disable rotation mode."));
+            if (sender.hasPermission("motdchanger.rotation.set"))
+                helps.addAll(Arrays.asList(
+                    ChatColor.DARK_AQUA + "/motdchanger rotation set <index/new> <motd> " + ChatColor.WHITE + "- " + ChatColor.AQUA + "Allows you to set a rotating MOTD.",
+                    ChatColor.DARK_AQUA + "/motdchanger rotation remove <index/all>" + ChatColor.WHITE + "- " + ChatColor.AQUA + "Allows you to remove one or all rotating MOTDs",
+                    ChatColor.DARK_AQUA + "/motdchanger rotation get <index/all>" + ChatColor.WHITE + "- " + ChatColor.AQUA + "Allows you to get one or all rotating MOTDs"
+                ));
+            return helps;
+        } else
+            return Collections.singletonList(ChatColor.RED + "You have no permission to see rotation MOTD commands. Please contact an administrator if this is not intended. (Missing permission: motdchanger.rotation)");
+    }
+    private List<String> getAllCommands(CommandSender sender) {
+        List<String> helps = new ArrayList<>();
+        helps.addAll(Arrays.asList(ChatColor.DARK_AQUA + "/motdchanger info " + ChatColor.WHITE + "- " + ChatColor.AQUA + "Allows you to get information about this plugin.",
+                ChatColor.DARK_AQUA + "/motdchanger help <all/rotation>" + ChatColor.WHITE + "- " + ChatColor.AQUA + "Allows you to get help with the commands of this plugin."));
+        if (sender.hasPermission("motdchanger.temporary"))
+            helps.add(ChatColor.DARK_AQUA + "/motdchanger temporary <motd> " + ChatColor.WHITE + "- " + ChatColor.AQUA + "Allows you to set a temporary MOTD.");
+        if (sender.hasPermission("motdchanger.permanent"))
+            helps.add(ChatColor.DARK_AQUA + "/motdchanger permanent <motd> " + ChatColor.WHITE + "- " + ChatColor.AQUA + "Allows you to set a permanent MOTD.");
+        if (sender.hasPermission("motdchanger.reload"))
+            helps.add(ChatColor.DARK_AQUA + "/motdchanger reload " + ChatColor.WHITE + "- " + ChatColor.AQUA + "Allows you to reload the plugin.");
+        return helps;
     }
 
     private void reload(CommandSender sender) {
