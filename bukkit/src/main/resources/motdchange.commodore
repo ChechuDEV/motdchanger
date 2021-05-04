@@ -1,5 +1,8 @@
 motdchange {
-    help;
+    help {
+        all;
+        rotation;
+    }
     info;
     reload;
     temporary {
@@ -12,16 +15,16 @@ motdchange {
         toggle brigadier:bool;
         enable;
         disable;
+        get {
+            index brigadier:integer;
+            all;
+        }
         set {
             index brigadier:integer {
                 motd brigadier:string greedy_phrase;
             }
         }
         remove {
-            index brigadier:integer;
-            all;
-        }
-        get {
             index brigadier:integer;
             all;
         }
