@@ -1,0 +1,25 @@
+repositories {
+    maven {
+        name = 'sponge-repo'
+        url = 'https://repo.spongepowered.org/maven'
+    }
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
+dependencies {
+    implementation project(':motdchanger-common')
+    compileOnly 'org.spongepowered:spongeapi:7.3.0'
+    annotationProcessor 'org.spongepowered:spongeapi:7.3.0'
+}
+
+shadowJar {
+    dependencies {
+        include(dependency(':motdchanger-common'))
+    }
+}
+
+tasks.build.dependsOn tasks.shadowJar

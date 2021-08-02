@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'velocitypowered-repo'
+        url = 'https://repo.velocitypowered.com/releases/'
+    }
+    maven {
+        name = 'minecraft-libraries'
+        url = 'https://libraries.minecraft.net/'
+    }
+    maven {
+        name = 'spongepowered-repo'
+        url = 'https://repo.spongepowered.org/maven'
+    }
+}
+
+dependencies {
+    implementation project(':motdchanger-common')
+    compileOnly 'com.velocitypowered:velocity-api:1.1.8'
+    annotationProcessor 'com.velocitypowered:velocity-api:1.1.8'
+}
+
+shadowJar {
+    dependencies {
+        include(dependency(':motdchanger-common'))
+    }
+}
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+task processSources(type: Sync) {
+    from sourceSets.main.java.srcDirs
+    inputs.property 'version', version
+    filter ReplaceTokens, tokens: [version: version]
+    into "$buildDir/src"
+}
+
+compileJava.source = processSources.outputs
+
+tasks.build.dependsOn tasks.shadowJar

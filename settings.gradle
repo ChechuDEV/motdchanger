@@ -1,0 +1,3 @@
+rootProject.name = 'motdchanger'
+
+include ':motdchanger-common', ':motdchanger-paper', ':motdchanger-sponge', ':motdchanger-waterfall', ':motdchanger-velocity'
