@@ -1,0 +1,8 @@
+name: MOTDChanger
+version: ${version}
+main: dev.chechu.motdchanger.paper
+api-version: 1.17
+prefix: MotDChanger
+authors: [ Chechu ]
+description: A plugin that allows you to change server's MOTD in-game and set rotating MOTDs with even hex-colors!
+softdepend: [ ProtocolLib ]
