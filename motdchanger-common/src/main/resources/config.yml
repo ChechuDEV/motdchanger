@@ -1,0 +1,13 @@
+# Please don't edit this file unless you're 100% sure you can't break it. Use in-game/console commands instead.
+# Enable or disable MOTD Rotation (default: false)
+rotation: false
+# This is the list of the MOTDs, when rotation is false only the first one will be displayed.
+motds:
+  - "&bThe server is working smoothly%newline%&aBe happy! ^^"
+
+# Enable the following setting to allow the plugin to check for updates. When an update is found a message will be sent to admins/ops. (default: true)
+checkupdates: true
+# Enable the following setting to allow the plugin to automatically update the plugin. (default: true)
+autoupdate: true
+# Disable the following setting to disable the metrics of this plugin, it just sends statistics to BStats (plugin version, server version, java version, player count, server location and operating system) (default: true)
+metrics: true
