@@ -1,0 +1,36 @@
+plugins {
+    id 'com.github.johnrengelman.shadow'
+}
+
+repositories {
+    maven {
+        name = 'papermc-repo'
+        url = 'https://papermc.io/repo/repository/maven-public/'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+    maven { url "https://repo.dmulloy2.net/repository/public/" }
+}
+
+dependencies {
+    implementation project(':motdchanger-common')
+    compileOnly 'io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT'
+    compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.7.0";
+}
+
+processResources {
+    duplicatesStrategy = 'include'
+    from(sourceSets.main.resources.srcDirs) {
+        expand 'version': project.version
+    }
+}
+
+shadowJar {
+    dependencies {
+        include(dependency(':motdchanger-common'))
+    }
+}
+
+tasks.build.dependsOn tasks.shadowJar
