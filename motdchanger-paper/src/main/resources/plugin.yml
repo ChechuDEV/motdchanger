@@ -6,3 +6,30 @@ prefix: MotDChanger
 authors: [ Chechu ]
 description: A plugin that allows you to change server's MOTD in-game and set rotating MOTDs with even hex-colors!
 softdepend: [ ProtocolLib ]
+commands:
+  motdchange:
+    description: The core command of MotDChanger
+    aliases: [ setmotd, motdchanger ]
+    permission: motdchanger
+    usage: "Usage: /motdchange help"
+permissions:
+  motdchanger:
+    description: The most basic permission of MotDChanger
+    default: true
+  motdchanger.updates:
+    description: Whether the user will receive update messages or not
+  motdchanger.temporary:
+    description: Allows you to change the MotD temporarily
+    default: op
+  motdchanger.permanent:
+    description: Allows you to change the MotD permanently
+    default: op
+  motdchanger.togglerotation:
+    description: Allows you to enable or disable rotation mode
+    default: op
+  motdchanger.rotation:
+    description: Allows you to add and remove rotation MotDs
+    default: op
+  motdchanger.protocol:
+    description: Allows you to enable or disable protocol and change it's text
+    default: op
