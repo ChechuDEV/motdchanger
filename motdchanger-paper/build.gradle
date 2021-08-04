@@ -17,7 +17,7 @@ repositories {
 dependencies {
     implementation project(':motdchanger-common')
     compileOnly 'io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT'
-    compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.7.0";
+    compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.7.0"
 }
 
 processResources {
