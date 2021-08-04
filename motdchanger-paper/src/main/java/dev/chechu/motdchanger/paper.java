@@ -5,6 +5,7 @@ import dev.chechu.motdchanger.events.packetPingListener;
 import dev.chechu.motdchanger.events.paperPingListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 public final class paper extends JavaPlugin {
@@ -14,33 +15,49 @@ public final class paper extends JavaPlugin {
         log = getLogger();
         log.info("Thanks for using my plugin! Remember to rate it and share it with your friends!");
 
-        // Server check
-        boolean isPaper = false;
-        boolean hasProtocol = false;
+        // Event hook
+        eventHook();
+
+        // Command init
+        getCommand("motdchange").setExecutor(new command());
+
+        // Config file set up
+        File configFile = new File(getDataFolder(),"config.yml");
+        if (!configFile.exists() || !getConfig().contains("version")) {
+            saveDefaultConfig();
+        } // CONFIG FILE VERSION IS USELESS FOR NOW
+
+        // Metrics
+        new Metrics(this, 4679);
+
+        // Autoupdate
+    }
+
+    private boolean isPaper() {
         try {
             Class.forName("com.destroystokyo.paper.ParticleBuilder");
-            isPaper = true;
-        } catch (ClassNotFoundException e) {}
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
+    private boolean hasProtocol() {
         try {
             Class.forName("com.comphenix.protocol.wrappers.WrappedServerPing");
-            hasProtocol = true;
-        } catch (ClassNotFoundException e) {}
-        if (isPaper) {
-            getServer().getPluginManager().registerEvents(new paperPingListener(),this);
-        } else {
-            if (hasProtocol) {
-                new packetPingListener(this);
-            } else {
-                getServer().getPluginManager().registerEvents(new bukkitPingListener(),this);
-            }
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
         }
-        // Command init
-        //PluginCommand MOTDChange = getCommand("motdchange");
-        //MOTDChange.setExecutor(new command());
-        // Event init
-        // Config
-        // Metrics
-        // Autoupdate
+    }
+
+    private void eventHook() {
+        if(isPaper()) getServer().getPluginManager().registerEvents(new paperPingListener(),this);
+        else if (hasProtocol()) new packetPingListener(this);
+        else {
+            getServer().getPluginManager().registerEvents(new bukkitPingListener(),this);
+            log.warning("It seems that you aren't using Paper nor ProtocolLib, this plugin will be limited but will still work.");
+        }
     }
 
     @Override
