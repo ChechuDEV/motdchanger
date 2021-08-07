@@ -18,8 +18,6 @@ public class Colors {
     }
 
     public String RGBtoHex(int red, int green, int blue) {
-        return "#" + Integer.toHexString(red).toUpperCase() + (red < 16 ? 0 : "") + // Add String
-                Integer.toHexString(green).toUpperCase() + (green < 16 ? 0 : "") +
-                Integer.toHexString(blue).toUpperCase() + (blue < 16 ? 0 : "");
+        return String.format("#%02x%02x%02x", red, green, blue);
     }
 }
