@@ -20,9 +20,7 @@ public class MotD {
     }
 
     public String getMotD() {
-        String text = "<gradient #4aff98 #EBEB03>A longer test text </gradient>Test<gradient #EBEB03 #4aff98>For MotdChanger</gradient>";
-        String[] others = text.split("<gradient (#[a-fA-F0-9]{6}).+>(.+?)</gradient>");
-        StringBuilder string = new StringBuilder();
+        String text = "<gradient #4aff98 #EBEB03>A longer test text </gradient>&cTest<gradient #EBEB03 #4aff98>For MotdChanger</gradient>";
         Matcher textMatcher = GRADIENT_TEXT_PATTERN.matcher(text);
         while (textMatcher.find()){
             ArrayList<String> hexColors = new ArrayList<>();
@@ -33,9 +31,13 @@ public class MotD {
                     hexColors.add(hexMatcher.group(0));
                 }
             }
-            string.append(getGradient(textMatcher.group(1), hexColors));
+            text = text.replace(textMatcher.group(0),getGradient(textMatcher.group(1), hexColors));
         }
-        return string.toString();
+        Matcher hexMatcher = HEX_PATTERN.matcher(text);
+        while(hexMatcher.find()) {
+            text = text.replace(hexMatcher.group(0),"" + ChatColor.of(hexMatcher.group(0)));
+        }
+        return text.replaceAll("&","§").replaceAll("%newline%","\n");
     }
 
     public String getGradient(String text, ArrayList<String> hexColors) {
