@@ -3,6 +3,7 @@ package dev.chechu.motdchanger;
 import dev.chechu.motdchanger.events.bukkitPingListener;
 import dev.chechu.motdchanger.events.packetPingListener;
 import dev.chechu.motdchanger.events.paperPingListener;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -19,7 +20,9 @@ public final class paper extends JavaPlugin {
         eventHook();
 
         // Command init
-        getCommand("motdchange").setExecutor(new command());
+        PluginCommand motDChange = getCommand("motdchange");
+        assert motDChange != null;
+        motDChange.setExecutor(new command());
 
         // Config file set up
         File configFile = new File(getDataFolder(),"config.yml");
