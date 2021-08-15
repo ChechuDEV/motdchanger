@@ -55,7 +55,7 @@ public final class paper extends JavaPlugin {
         if(isPaper()) getServer().getPluginManager().registerEvents(new paperPingListener(this),this);
         else if (hasProtocol()) new packetPingListener(this);
         else {
-            getServer().getPluginManager().registerEvents(new bukkitPingListener(),this);
+            getServer().getPluginManager().registerEvents(new bukkitPingListener(this),this);
             log.warning("It seems that you aren't using Paper nor ProtocolLib, this plugin will be limited but will still work.");
         }
     }
