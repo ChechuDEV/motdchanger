@@ -2,6 +2,8 @@ package dev.chechu.motdchanger;
 
 import dev.chechu.motdchanger.common.Colors;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
@@ -16,11 +18,32 @@ public class MotD {
     final Pattern GRADIENT_TEXT_PATTERN = Pattern.compile("<gradient #[a-fA-F0-9]{6} #[a-fA-F0-9]{6}>(.+?)</gradient>",Pattern.DOTALL);
     final Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}",Pattern.DOTALL);
 
-    public MotD(Plugin plugin) {
+    private final FileConfiguration config;
+
+    public MotD(Plugin pl) {
+        config = pl.getConfig();
     }
 
     public String getMotD() {
-        String text = "<gradient #4aff98 #EBEB03>A longer test text </gradient>&cTest<gradient #EBEB03 #4aff98>For MotdChanger</gradient>";
+        int index = 0;
+        if(config.getBoolean("rotation"))
+            index = (int)(Math.random() * config.getStringList("motds").size());
+        return convert(config.getStringList("motds").get(index));
+    }
+
+    public String getProtocol() {
+        return config.getString("blockProtocol");
+    }
+
+    public String getVersionName() {
+        return convert(config.getString("versionText"));
+    }
+
+    public Boolean hidePlayers() {
+        return config.getBoolean("hidePlayers");
+    }
+
+    public String convert(String text) {
         Matcher textMatcher = GRADIENT_TEXT_PATTERN.matcher(text);
         while (textMatcher.find()){
             ArrayList<String> hexColors = new ArrayList<>();
