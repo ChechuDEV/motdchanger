@@ -7,11 +7,15 @@ rotation: false
 motds:
   - "&bThe server is working smoothly%newline%&aBe happy! ^^"
 
-# Enable if you want to display versionText at the side of the ping status. (Enabling it also sets ping status as "Incompatible Version!")
+# Enable if you want to display versionText at the side of the ping status. (Enabling it also sets ping status as "Incompatible Version!") (default: default)
+# Possible options: default - displays server protocol | never - displays player's protocol | yes - displays incompatible protocol
 # I recommend blocking the protocol version only when the server is in maintenance!
-blockProtocol: false
+blockProtocol: default
 # Set the versionText when blockProtocol is enabled TODO: PLACEHOLDERS
 versionText: "&4Maintenance!"
+# Set this to true if you want to hide the number of players inside (default: false)
+hidePlayers: false
+
 # Enable the following setting to allow the plugin to check for updates. When an update is found a message will be sent to admins/ops. (default: true)
 checkupdates: true
 # Enable the following setting to allow the plugin to automatically update the plugin. (default: true)
