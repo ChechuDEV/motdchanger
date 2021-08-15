@@ -52,7 +52,7 @@ public final class paper extends JavaPlugin {
     }
 
     private void eventHook() {
-        if(isPaper()) getServer().getPluginManager().registerEvents(new paperPingListener(),this);
+        if(isPaper()) getServer().getPluginManager().registerEvents(new paperPingListener(this),this);
         else if (hasProtocol()) new packetPingListener(this);
         else {
             getServer().getPluginManager().registerEvents(new bukkitPingListener(),this);
