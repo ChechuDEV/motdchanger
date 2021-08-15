@@ -11,6 +11,8 @@ import dev.chechu.motdchanger.MotD;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.plugin.Plugin;
 
+import java.util.Objects;
+
 public class packetPingListener {
     private ProtocolManager protocolManager;
 
@@ -24,7 +26,11 @@ public class packetPingListener {
                     WrappedServerPing packet = event.getPacket().getServerPings().read(0);
 
                     packet.setMotD(motD.getMotD());
-                            //getGradient("{gradient #3C3C3B #EBEB03} A longer test text for MotDChanger!","3C3C3B", "EBEBD3")
+                    if(Objects.equals(motD.getProtocol(), "never")) packet.setVersionProtocol(protocolManager.getProtocolVersion(event.getPlayer()));
+                    else if (Objects.equals(motD.getProtocol(), "yes")) packet.setVersionProtocol(-1);
+                    packet.setVersionName(motD.getVersionName());
+                    packet.setPlayersVisible(motD.hidePlayers());
+                    // TODO: Set max numbers, custom playerlist, etc...
                 }
             }
         });
