@@ -4,8 +4,10 @@ import dev.chechu.motdchanger.common.Colors;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import java.awt.print.Paper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,16 +21,25 @@ public class MotD {
     final Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}",Pattern.DOTALL);
 
     private final FileConfiguration config;
+    private final paper plugin;
 
-    public MotD(Plugin pl) {
+    private Player player = null;
+    public MotD(paper pl) {
         config = pl.getConfig();
+        plugin = pl;
+    }
+
+    public MotD(paper pl, Player player) {
+        config = pl.getConfig();
+        plugin = pl;
+        this.player = player;
     }
 
     public String getMotD() {
-        int index = 0;
+        String motD = plugin.motD;
         if(config.getBoolean("rotation"))
-            index = (int)(Math.random() * config.getStringList("motds").size());
-        return convert(config.getStringList("motds").get(index));
+            motD = config.getStringList("motds").get((int)(Math.random() * config.getStringList("motds").size()));
+        return motD;
     }
 
     public String getProtocol() {
@@ -82,13 +93,29 @@ public class MotD {
 
                 // Make class for Interpolation or use Java Gradient Methods https://stackoverflow.com/questions/27532/generating-gradients-programmatically
 
-                int redNext = (int) Math.floor(rgb.get(0) * p + rgb2.get(0) * (1-p));
-                int greenNext = (int) Math.floor(rgb.get(1) * p + rgb2.get(1) * (1-p));
-                int blueNext = (int) Math.floor(rgb.get(2) * p + rgb2.get(2) * (1-p));
+                int redNext = (int) Math.floor(rgb2.get(0) * p + rgb.get(0) * (1-p));
+                int greenNext = (int) Math.floor(rgb2.get(1) * p + rgb.get(1) * (1-p));
+                int blueNext = (int) Math.floor(rgb2.get(2) * p + rgb.get(2) * (1-p));
 
                 finalText.append(ChatColor.of(colorClass.RGBtoHex(redNext,greenNext,blueNext))).append(characters[step]);
             }
         }
+        finalText.append(ChatColor.of(hexColors.get(hexColors.size()-1))).append(characters[characters.length-1]);
         return finalText.toString();
+    }
+
+    public Boolean setMotD(String motD, boolean permanent) {
+        plugin.motD = motD;
+        if(permanent) {
+            List<String> motDs = config.getStringList("motds");
+            motDs.set(0,motD);
+            config.set("motds",motDs);
+        }
+        return true;
+    }
+
+    public Boolean setMotD() {
+        plugin.motD = config.getStringList("motds").get(0);
+        return true;
     }
 }
