@@ -8,6 +8,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
 import dev.chechu.motdchanger.MotD;
+import dev.chechu.motdchanger.paper;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.plugin.Plugin;
 
@@ -16,7 +17,7 @@ import java.util.Objects;
 public class packetPingListener {
     private ProtocolManager protocolManager;
 
-    public packetPingListener(Plugin paper) {
+    public packetPingListener(paper paper) {
         protocolManager = ProtocolLibrary.getProtocolManager();
         MotD motD = new MotD(paper);
         protocolManager.addPacketListener(new PacketAdapter(paper, ListenerPriority.NORMAL,  PacketType.Status.Server.SERVER_INFO){

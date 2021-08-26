@@ -3,6 +3,7 @@ package dev.chechu.motdchanger.events;
 import com.destroystokyo.paper.event.player.IllegalPacketEvent;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import dev.chechu.motdchanger.MotD;
+import dev.chechu.motdchanger.paper;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.event.EventHandler;
@@ -14,7 +15,7 @@ import java.util.Objects;
 
 public class paperPingListener implements Listener {
     private final MotD motD;
-    public paperPingListener(Plugin pl) {
+    public paperPingListener(paper pl) {
         motD = new MotD(pl);
     }
 

@@ -1,15 +1,15 @@
 package dev.chechu.motdchanger.events;
 
 import dev.chechu.motdchanger.MotD;
+import dev.chechu.motdchanger.paper;
 import net.kyori.adventure.text.Component;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
-import org.bukkit.plugin.Plugin;
 
 public class bukkitPingListener implements Listener {
     private final MotD motD;
-    public bukkitPingListener(Plugin pl) {
+    public bukkitPingListener(paper pl) {
         motD = new MotD(pl);
     }
 
