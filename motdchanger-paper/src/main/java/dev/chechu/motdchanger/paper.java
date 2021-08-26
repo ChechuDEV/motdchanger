@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 public final class paper extends JavaPlugin {
     private Logger log;
+    public String motD;
     @Override
     public void onEnable() {
         log = getLogger();
@@ -22,7 +23,7 @@ public final class paper extends JavaPlugin {
         // Command init
         PluginCommand motDChange = getCommand("motdchange");
         assert motDChange != null;
-        motDChange.setExecutor(new command());
+        motDChange.setExecutor(new command(this));
 
         // Config file set up
         File configFile = new File(getDataFolder(),"config.yml");
@@ -33,6 +34,8 @@ public final class paper extends JavaPlugin {
         // Metrics
         new Metrics(this, 4679);
 
+
+        motD = getConfig().getStringList("motds").get(0);
         // Autoupdate
     }
 
