@@ -5,9 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Colors {
-    public Colors() {
-    }
-
     public List<Integer> hexToRGB(String hex) {
         String hexColor = hex.replace("#","");
         int red = Integer.parseInt(hexColor.substring(0,2),16);
