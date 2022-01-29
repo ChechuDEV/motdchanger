@@ -10,16 +10,16 @@ motds:
 # Enable if you want to display versionText at the side of the ping status. (Enabling it also sets ping status as "Incompatible Version!") (default: default)
 # Possible options: default - displays server protocol | never - displays player's protocol | yes - displays incompatible protocol
 # I recommend blocking the protocol version only when the server is in maintenance!
-blockProtocol: default
+block-protocol: default
 # Set the versionText when blockProtocol is enabled TODO: PLACEHOLDERS
-versionText: "&4Maintenance!"
+version-text: "&4Maintenance!"
 # Set this to true if you want to hide the number of players inside (default: false)
-hidePlayers: false
+hide-players: false
 
 # Enable the following setting to allow the plugin to check for updates. When an update is found a message will be sent to admins/ops. (default: true)
-checkupdates: true
+check-updates: true
 # Enable the following setting to allow the plugin to automatically update the plugin. (default: true)
-autoupdate: true
+auto-update: true
 # Disable the following setting to disable the metrics of this plugin, it just sends statistics to BStats (plugin version, server version, java version, player count, server location and operating system) (default: true)
 metrics: true
 
