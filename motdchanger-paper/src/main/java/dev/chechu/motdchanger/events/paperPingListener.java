@@ -1,30 +1,29 @@
 package dev.chechu.motdchanger.events;
 
-import com.destroystokyo.paper.event.player.IllegalPacketEvent;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
+import dev.chechu.motdchanger.Configuration;
 import dev.chechu.motdchanger.MotD;
-import dev.chechu.motdchanger.paper;
+import dev.chechu.motdchanger.Main;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.server.ServerListPingEvent;
-import org.bukkit.plugin.Plugin;
 
 import java.util.Objects;
 
 public class paperPingListener implements Listener {
+    private final Configuration config;
     private final MotD motD;
-    public paperPingListener(paper pl) {
-        motD = new MotD(pl);
+    public paperPingListener(Configuration config) {
+        this.config = config;
+        motD = new MotD(config);
     }
 
     @EventHandler
     public void onServerListPing(PaperServerListPingEvent event) {
         event.motd(Component.text(motD.getMotD()));
-        event.setVersion(motD.getVersionName());
-        if(Objects.equals(motD.getProtocol(), "never")) event.setProtocolVersion(event.getProtocolVersion());
-        else if (Objects.equals(motD.getProtocol(), "yes")) event.setProtocolVersion(-1);
-        event.setHidePlayers(motD.hidePlayers());
+        event.setVersion(config.getVersionText());
+        if(Objects.equals(config.getBlockProtocolID(), 1)) event.setProtocolVersion(event.getProtocolVersion());
+        else if (Objects.equals(config.getBlockProtocolID(), 2)) event.setProtocolVersion(-1);
+        event.setHidePlayers(config.isHidePlayersEnabled());
     }
 }

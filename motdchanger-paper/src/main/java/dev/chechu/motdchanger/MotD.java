@@ -2,14 +2,10 @@ package dev.chechu.motdchanger;
 
 import dev.chechu.motdchanger.common.Colors;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
-import java.awt.print.Paper;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,38 +16,24 @@ public class MotD {
     final Pattern GRADIENT_TEXT_PATTERN = Pattern.compile("<gradient #[a-fA-F0-9]{6} #[a-fA-F0-9]{6}>(.+?)</gradient>",Pattern.DOTALL);
     final Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}",Pattern.DOTALL);
 
-    private final FileConfiguration config;
-    private final paper plugin;
+    private final Configuration config;
 
-    private Player player = null;
-    public MotD(paper pl) {
-        config = pl.getConfig();
-        plugin = pl;
+    private Player player = null; // FIXME: Necessary?
+
+    public MotD(Configuration config) {
+        this.config = config;
     }
 
-    public MotD(paper pl, Player player) {
-        config = pl.getConfig();
-        plugin = pl;
+    public MotD(Configuration config, Player player) {
+        this.config = config;
         this.player = player;
     }
 
     public String getMotD() {
-        String motD = plugin.motD;
-        if(config.getBoolean("rotation"))
-            motD = config.getStringList("motds").get((int)(Math.random() * config.getStringList("motds").size()));
-        return motD;
-    }
-
-    public String getProtocol() {
-        return config.getString("blockProtocol");
-    }
-
-    public String getVersionName() {
-        return convert(config.getString("versionText"));
-    }
-
-    public Boolean hidePlayers() {
-        return config.getBoolean("hidePlayers");
+        String motD = config.getMotD();
+        if(config.isRotationEnabled())
+            motD = config.getMotDs().get((int)(Math.random() * config.getMotDs().size()));
+        return convert(motD);
     }
 
     public String convert(String text) {
@@ -104,18 +86,18 @@ public class MotD {
         return finalText.toString();
     }
 
-    public Boolean setMotD(String motD, boolean permanent) {
-        plugin.motD = motD;
+    public boolean setMotD(String motD, boolean permanent) {
+        config.setMotD(motD);
         if(permanent) {
-            List<String> motDs = config.getStringList("motds");
+            List<String> motDs = config.getMotDs();
             motDs.set(0,motD);
-            config.set("motds",motDs);
+            config.setMotDs(motDs);
         }
         return true;
     }
 
-    public Boolean setMotD() {
-        plugin.motD = config.getStringList("motds").get(0);
+    public boolean setMotD() {
+        config.setMotD(config.getMotDs().get(0));
         return true;
     }
 }
