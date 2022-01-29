@@ -1,26 +1,34 @@
-package dev.chechu.motdchanger;
+package dev.chechu.motdchanger.commands;
 
+import dev.chechu.motdchanger.Configuration;
+import dev.chechu.motdchanger.Main;
+import dev.chechu.motdchanger.MotD;
+import dev.chechu.motdchanger.utils.Message;
+import dev.chechu.motdchanger.utils.Messages;
 import org.apache.logging.log4j.util.Strings;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-import java.util.List;
 
-public class command implements CommandExecutor {
-    private final paper plugin;
-    public command(paper paper) {
-        plugin = paper;
+public class MainCommand implements CommandExecutor {
+    private final Configuration config;
+    public MainCommand(Configuration config) {
+        this.config = config;
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, org.bukkit.command.@NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        CommandManager commandManager = new CommandManager();
+        commandManager.addSubcommand("help", new Help(commandManager));
+
+        commandManager.call(args[0], sender, args);
+
         Player player = (Player) sender;
-        MotD motD = new MotD(plugin,player);
+        MotD motD = new MotD(config);
+        Messages messages = new Messages();
         if(args.length < 1) return false;
         switch (args[0]) {
             case "help" -> {
@@ -40,12 +48,15 @@ public class command implements CommandExecutor {
                     case "set" -> {
                         switch (args[2]) {
                             case "permanent" -> {
-                                player.sendMessage("Message of the Day successfully changed.");
-                                return motD.setMotD(getArgs(3, args), true);
+                                if (motD.setMotD(getArgs(3, args), true)) {
+                                    messages.sendMessage(player, Message.PERMANENT_SUCCESS);
+                                }
                             }
                             case "temporary" -> {
-                                player.sendMessage("Message of the Day successfully changed.");
-                                return motD.setMotD(getArgs(3, args), false);
+                                player.sendMessage("Temporary Message of the Day successfully changed.");
+                                if(motD.setMotD(getArgs(3, args), false)) {
+                                    messages.sendMessage(player, Message.TEMPORARY_SUCCESS);
+                                }
                             }
                             default -> {
                                 return false;
@@ -111,7 +122,7 @@ public class command implements CommandExecutor {
                 return false;
             }
         }
-
+        return false;
     }
     private void getHelp(Player player) {
 
@@ -122,4 +133,5 @@ public class command implements CommandExecutor {
     private String getArgs(int from, String[] args){
         return Strings.join(Arrays.asList(args).subList(from,args.length-1), ' ');
     }
+
 }
