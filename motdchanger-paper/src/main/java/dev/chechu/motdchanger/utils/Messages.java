@@ -21,7 +21,7 @@ public class Messages {
     }
 
     public void sendMessage(Player player, Message message) {
-        BaseComponent messageText = new TextComponent(message.level.color + "MOTDChanger » " + message.message);
+        BaseComponent messageText = new TextComponent(message.level.color + "MotDChanger » " + message.message);
         if(message.hover != null) {
             Text contents = new Text(message.hover);
             HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, contents);
