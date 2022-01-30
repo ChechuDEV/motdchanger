@@ -16,15 +16,16 @@ public class CommandManager {
         return subcommands;
     }
 
-    public void call(CommandSender sender, String[] args) {
-        //TODO: If multiple commands call the nested one. if(hasSubcommands()) subcommands.foreach if subcommand == nextArg --> recursive, at last coincidence call. (boolean)
-        for (String subcommandName : getSubcommands().keySet()) {
-            if (subcommandName.equals(args[0])) {
-                getSubcommands().get(subcommandName).execute(sender, Arrays.copyOfRange(args, 1, args.length));
-                break;
+    public boolean call(CommandSender sender, String[] args) {
+        for (String commandName : getSubcommands().keySet()) {
+            if (commandName.equals(args[0])) {
+                if(!call(sender, Arrays.copyOfRange(args, 1, args.length))) {
+                    getSubcommands().get(commandName).execute(sender, Arrays.copyOfRange(args,1,args.length));
+                }
+                return true;
             }
-            getSubcommands().get("help").execute(sender, new String[0]);
         }
+        return false;
     }
 
     public String getHelp(Command command) {
