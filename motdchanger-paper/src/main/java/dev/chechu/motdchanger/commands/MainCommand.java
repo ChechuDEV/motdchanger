@@ -22,9 +22,9 @@ public class MainCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, org.bukkit.command.@NotNull Command command, @NotNull String label, @NotNull String[] args) {
         CommandManager commandManager = new CommandManager();
-        commandManager.addSubcommand("help", new Help(commandManager));
+        commandManager.addCommand(new Help(commandManager));
 
-        if(!commandManager.call(sender, args)) commandManager.call(sender, List.of("help").toArray(String[]::new));
+        commandManager.call(sender,args);
 
         Player player = (Player) sender;
         MotD motD = new MotD(config);
