@@ -20,13 +20,13 @@ public abstract class Command {
     String description;
     List<String> params;
     String command;
-    List<String> subcommands;
+    List<Command> subcommands;
 
     public String getCommand() {
         return command;
     }
 
-    public List<String> getSubcommands() {
+    public List<Command> getSubcommands() {
         return subcommands;
     }
 
@@ -38,7 +38,7 @@ public abstract class Command {
         return params;
     }
 
-    public Command(String description, List<String> params, String command, List<Sub> subcommands) {
+    public Command(String description, List<String> params, String command, List<Command> subcommands) {
         this.description = description;
         this.params = params;
         this.command = command;
@@ -57,5 +57,9 @@ public abstract class Command {
 
     public boolean isCommandBlock(CommandSender sender) {
         return sender instanceof BlockCommandSender;
+    }
+
+    public boolean hasSubcommands() {
+        return !subcommands.isEmpty();
     }
 }
