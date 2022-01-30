@@ -1,26 +1,42 @@
 package dev.chechu.motdchanger.commands;
 
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class CommandManager {
-    private final HashMap<String, Command> subcommands = new HashMap<>();
+    private final List<Command> commands = new ArrayList<>();
 
-    public void addSubcommand(String subcommandName, Command subcommand) {
-        subcommands.put(subcommandName, subcommand);
+    public void addCommand(Command command) {
+        commands.add(command);
     }
 
-    public HashMap<String, Command> getSubcommands() {
-        return subcommands;
+    public List<Command> getCommands() {
+        return commands;
     }
 
-    public boolean call(CommandSender sender, String[] args) {
-        for (String commandName : getSubcommands().keySet()) {
-            if (commandName.equals(args[0])) {
-                if(!call(sender, Arrays.copyOfRange(args, 1, args.length))) {
-                    getSubcommands().get(commandName).execute(sender, Arrays.copyOfRange(args,1,args.length));
+    public void call(CommandSender sender, String[] args) {
+        for (Command command : getCommands()) {
+            if (command.getCommand().equals(args[0])) {
+                if(!call(sender, Arrays.copyOfRange(args, 1, args.length), command)) {
+                    command.execute(sender, Arrays.copyOfRange(args,1,args.length));
+                }
+                return;
+            }
+        }
+        call(sender, new String[]{"help"});
+    }
+
+    public boolean call(CommandSender sender, String[] args, @NotNull Command topCommand) {
+        for (Command command : topCommand.getSubcommands()) {
+            if (command.getCommand().equals(args[0])) {
+                if(!call(sender, Arrays.copyOfRange(args,1,args.length),command)) {
+                    command.execute(sender,args);
                 }
                 return true;
             }
@@ -55,7 +71,7 @@ public class CommandManager {
 
     public String getAllHelp() {
         StringBuilder help = new StringBuilder();
-        for (Command command : getSubcommands().values()) {
+        for (Command command : getCommands()) {
             help.append(getHelp(command)).append("\n");
         }
         return String.valueOf(help);
