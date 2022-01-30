@@ -7,16 +7,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public abstract class Command {
-    /*
-    * /motdchanger  motd - Displays motd help
-    *               COMMAND
-    * /motdchanger  motd    temporary   <motd> - Changes...
-    *               COMMAND COMMAND     PARAM
-    *
-    * TODO: Help iterator!!!
-    *
-    * */
+abstract class Command {
     String description;
     List<String> params;
     String command;
@@ -59,6 +50,7 @@ public abstract class Command {
         return sender instanceof BlockCommandSender;
     }
 
+    @Deprecated
     public boolean hasSubcommands() {
         return !subcommands.isEmpty();
     }
