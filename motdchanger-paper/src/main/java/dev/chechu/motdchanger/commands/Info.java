@@ -1,5 +1,7 @@
 package dev.chechu.motdchanger.commands;
 
+import dev.chechu.motdchanger.utils.Message;
+import dev.chechu.motdchanger.utils.Messages;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collections;
@@ -12,6 +14,6 @@ public class Info extends Command {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-
+        Messages.sendMessage(sender, Message.INFO);
     }
 }
