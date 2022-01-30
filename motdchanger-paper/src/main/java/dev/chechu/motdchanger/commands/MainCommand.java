@@ -24,7 +24,7 @@ public class MainCommand implements CommandExecutor {
         CommandManager commandManager = new CommandManager();
         commandManager.addSubcommand("help", new Help(commandManager));
 
-        commandManager.call(args[0], sender, args);
+        commandManager.call(sender, args);
 
         Player player = (Player) sender;
         MotD motD = new MotD(config);
