@@ -1,7 +1,6 @@
 package dev.chechu.motdchanger.commands;
 
 import dev.chechu.motdchanger.Configuration;
-import dev.chechu.motdchanger.Main;
 import dev.chechu.motdchanger.MotD;
 import dev.chechu.motdchanger.utils.Message;
 import dev.chechu.motdchanger.utils.Messages;
@@ -12,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class MainCommand implements CommandExecutor {
     private final Configuration config;
@@ -24,7 +24,7 @@ public class MainCommand implements CommandExecutor {
         CommandManager commandManager = new CommandManager();
         commandManager.addSubcommand("help", new Help(commandManager));
 
-        commandManager.call(sender, args);
+        if(!commandManager.call(sender, args)) commandManager.call(sender, List.of("help").toArray(String[]::new));
 
         Player player = (Player) sender;
         MotD motD = new MotD(config);
