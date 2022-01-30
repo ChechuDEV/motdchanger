@@ -37,10 +37,11 @@ public final class Main extends JavaPlugin {
         } // TODO: CONFIG FILE VERSION IS USELESS FOR NOW
 
         // Metrics
-        new Metrics(this, 4679);
+        if(config.areMetricsEnabled())
+            new Metrics(this, 4679);
 
 
-        motD = getConfig().getStringList("motds").get(0);
+        motD = config.getMotD();
         // TODO: Autoupdate
     }
 
@@ -81,5 +82,9 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public static String getVersion() {
+        return getPlugin(Main.class).getDescription().getVersion();
     }
 }
