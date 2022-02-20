@@ -1,4 +1,4 @@
-package dev.chechu.motdchanger.utils;
+package dev.chechu.motdchanger.paper.utils;
 
 import org.bukkit.ChatColor;
 

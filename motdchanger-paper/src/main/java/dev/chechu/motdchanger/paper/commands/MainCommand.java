@@ -1,9 +1,11 @@
-package dev.chechu.motdchanger.commands;
+package dev.chechu.motdchanger.paper.commands;
 
-import dev.chechu.motdchanger.Configuration;
-import dev.chechu.motdchanger.MotD;
-import dev.chechu.motdchanger.utils.Message;
-import dev.chechu.motdchanger.utils.Messages;
+import dev.chechu.motdchanger.common.utils.Sender;
+import dev.chechu.motdchanger.paper.Configuration;
+import dev.chechu.motdchanger.paper.MotD;
+import dev.chechu.motdchanger.paper.utils.BukkitSender;
+import dev.chechu.motdchanger.paper.utils.Message;
+import dev.chechu.motdchanger.paper.utils.Messages;
 import org.apache.logging.log4j.util.Strings;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class MainCommand implements CommandExecutor {
     private final Configuration config;
@@ -21,9 +22,10 @@ public class MainCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, org.bukkit.command.@NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        CommandManager commandManager = new CommandManager();
+        CommandManager commandManager = new CommandManager(config);
         commandManager.addCommand(new Help(commandManager));
-
+        commandManager.addCommand(new Info());
+        commandManager.addCommand(new Motd(commandManager));
         commandManager.call(sender,args);
 
         Player player = (Player) sender;
@@ -31,14 +33,6 @@ public class MainCommand implements CommandExecutor {
         Messages messages = new Messages();
         if(args.length < 1) return false;
         switch (args[0]) {
-            case "help" -> {
-                getHelp(player);
-                return true;
-            }
-            case "info" -> {
-                getInfo(player);
-                return true;
-            }
             case "motd" -> {
                 switch (args[1]) {
                     case "get" -> {

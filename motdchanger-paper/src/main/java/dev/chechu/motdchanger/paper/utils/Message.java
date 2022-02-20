@@ -1,6 +1,6 @@
-package dev.chechu.motdchanger.utils;
+package dev.chechu.motdchanger.paper.utils;
 
-import dev.chechu.motdchanger.Main;
+import dev.chechu.motdchanger.paper.Main;
 import net.md_5.bungee.api.chat.ClickEvent;
 import org.bukkit.ChatColor;
 

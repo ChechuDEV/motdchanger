@@ -1,4 +1,4 @@
-package dev.chechu.motdchanger.events;
+package dev.chechu.motdchanger.paper.events;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -7,9 +7,8 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
-import dev.chechu.motdchanger.Configuration;
-import dev.chechu.motdchanger.MotD;
-import dev.chechu.motdchanger.Main;
+import dev.chechu.motdchanger.paper.Configuration;
+import dev.chechu.motdchanger.paper.MotD;
 
 import java.util.Objects;
 

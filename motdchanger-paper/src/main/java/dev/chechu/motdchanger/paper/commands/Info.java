@@ -1,11 +1,10 @@
-package dev.chechu.motdchanger.commands;
+package dev.chechu.motdchanger.paper.commands;
 
-import dev.chechu.motdchanger.utils.Message;
-import dev.chechu.motdchanger.utils.Messages;
+import dev.chechu.motdchanger.paper.utils.Message;
+import dev.chechu.motdchanger.paper.utils.Messages;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collections;
-import java.util.List;
 
 public class Info extends Command {
     public Info() {

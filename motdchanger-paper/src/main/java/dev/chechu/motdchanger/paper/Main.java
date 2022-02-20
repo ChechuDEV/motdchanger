@@ -1,9 +1,9 @@
-package dev.chechu.motdchanger;
+package dev.chechu.motdchanger.paper;
 
-import dev.chechu.motdchanger.commands.MainCommand;
-import dev.chechu.motdchanger.events.bukkitPingListener;
-import dev.chechu.motdchanger.events.packetPingListener;
-import dev.chechu.motdchanger.events.paperPingListener;
+import dev.chechu.motdchanger.paper.commands.MainCommand;
+import dev.chechu.motdchanger.paper.events.bukkitPingListener;
+import dev.chechu.motdchanger.paper.events.packetPingListener;
+import dev.chechu.motdchanger.paper.events.paperPingListener;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -37,7 +37,7 @@ public final class Main extends JavaPlugin {
         } // TODO: CONFIG FILE VERSION IS USELESS FOR NOW
 
         // Metrics
-        if(config.areMetricsEnabled())
+        if(config.isMetrics())
             new Metrics(this, 4679);
 
 

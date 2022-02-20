@@ -1,8 +1,7 @@
-package dev.chechu.motdchanger;
+package dev.chechu.motdchanger.paper;
 
 import dev.chechu.motdchanger.common.Colors;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public class MotD {
 
     public String getMotD() {
         String motD = config.getMotD();
-        if(config.isRotationEnabled())
+        if(config.isRotation())
             motD = config.getMotDs().get((int)(Math.random() * config.getMotDs().size()));
         return convert(motD);
     }

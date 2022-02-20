@@ -1,4 +1,4 @@
-package dev.chechu.motdchanger;
+package dev.chechu.motdchanger.paper;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

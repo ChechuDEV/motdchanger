@@ -1,14 +1,10 @@
-package dev.chechu.motdchanger.utils;
+package dev.chechu.motdchanger.paper.utils;
 
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.hover.content.Content;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import java.awt.*;
 
 public class Messages {
     public static void sendMessage(CommandSender receiver, String string) {

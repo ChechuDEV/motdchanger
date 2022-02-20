@@ -1,9 +1,7 @@
-package dev.chechu.motdchanger.events;
+package dev.chechu.motdchanger.paper.events;
 
-import dev.chechu.motdchanger.Configuration;
-import dev.chechu.motdchanger.MotD;
-import dev.chechu.motdchanger.Main;
-import net.kyori.adventure.text.Component;
+import dev.chechu.motdchanger.paper.Configuration;
+import dev.chechu.motdchanger.paper.MotD;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
