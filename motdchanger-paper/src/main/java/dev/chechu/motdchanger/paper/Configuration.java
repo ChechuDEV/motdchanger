@@ -1,41 +1,44 @@
-package dev.chechu.motdchanger;
+package dev.chechu.motdchanger.paper;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.FileUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
 public class Configuration {
-    private final Main plugin;
+    @Getter private final Main plugin;
     private FileConfiguration config;
-    private final Logger logger;
+    @Getter private final Logger logger;
 
-    private boolean rotation = false;
-    private boolean hidePlayers = false;
-    private boolean checkUpdates = true;
-    private boolean autoUpdate = true;
-    private boolean metrics = true;
+    @Getter private boolean rotation = false;
+    @Getter private boolean hidePlayers = false;
+    @Getter private boolean checkUpdates = true;
+    @Getter private boolean autoUpdate = true;
+    @Getter private boolean metrics = true;
 
-    private List<String> motDs = List.of("&bThe server is working smoothly%newline%&aBe happy! ^^");
+    @Getter private List<String> motDs = List.of("&bThe server is working smoothly%newline%&aBe happy! ^^");
 
-    private String versionText = "&4Maintenance!";
-    private String motD = "&bThe server is working smoothly%newline%&aBe happy! ^^";
+    @Getter private String versionText = "&4Maintenance!";
+    @Setter private String motD = "&bThe server is working smoothly%newline%&aBe happy! ^^";
 
-    private int blockProtocol = 0;
+    @Getter private int blockProtocol = 0;
 
     private final String exceptedConfigVersion = "0.1";
     private String currentConfigVersion = "0.1";
+
+    private MotD motDManager;
 
     public Configuration(@NotNull Main plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfig();
         this.logger = plugin.getLogger();
-
+        this.motDManager = new MotD(this);
         setUpFiles();
 
         reloadConfig();
@@ -177,65 +180,14 @@ public class Configuration {
         return "default";
     }
 
-    /**
-     * Returns the plugin class
-     * @return Main plugin class
-     */
-    public Main getPlugin() {
-        return plugin;
-    }
-
-    /**
-     * Returns the plugin's logger
-     * @return Plugin's logger
-     */
-    public Logger getLogger() {
-        return logger;
-    }
-
-    public boolean isRotationEnabled() {
-        return rotation;
-    }
-
-    public boolean isHidePlayersEnabled() {
-        return hidePlayers;
-    }
-
-    public boolean isCheckUpdatesEnabled() {
-        return checkUpdates;
-    }
-
-    public boolean isAutoUpdateEnabled() {
-        return autoUpdate;
-    }
-
-    public boolean areMetricsEnabled() {
-        return metrics;
-    }
-
-    public List<String> getMotDs() {
-        return motDs;
-    }
-
-    public String getVersionText() {
-        return versionText;
-    }
-
-    public int getBlockProtocolID() {
-        return blockProtocol;
-    }
-
-    public String getMotD() {
-        return motD;
-    }
-
-    public void setMotD(String motD) {
-        this.motD = motD;
-    }
 
     public void setMotDs(List<String> motDs) {
         this.motDs = motDs;
         config.set("motds", motDs);
         plugin.saveConfig();
+    }
+
+    public String getMotD() {
+        return motDManager.getMotD();
     }
 }
