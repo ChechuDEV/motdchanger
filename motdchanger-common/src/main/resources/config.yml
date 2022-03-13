@@ -16,9 +16,11 @@ version-text: "&4Maintenance!"
 # Set this to true if you want to hide the number of players inside (default: false)
 hide-players: false
 
-# Enable the following setting to allow the plugin to check for updates. When an update is found a message will be sent to admins/ops. (default: true)
+# MUST RESTART AFTER CHANGING THIS SETTING - Enable the following setting to allow the plugin to check for updates. When an update is found a message will be sent to admins/ops. (default: true)
 check-updates: true
 # Enable the following setting to allow the plugin to automatically update the plugin. (default: true)
 auto-update: true
 # Disable the following setting to disable the metrics of this plugin, it just sends statistics to BStats (plugin version, server version, java version, player count, server location and operating system) (default: true)
 metrics: true
+# Enable the following setting to show the full stacktrace of the errors that may happen. (default: false)
+debug-mode: false

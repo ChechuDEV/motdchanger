@@ -20,11 +20,13 @@ public class Configuration extends SpigotConfig {
     @Getter private final ConfigChunk<Boolean> checkUpdates = new ConfigChunk<>("check-updates", true);
     @Getter private final ConfigChunk<Boolean> autoUpdate = new ConfigChunk<>("autoupdate", true);
     @Getter private final ConfigChunk<Boolean> metrics = new ConfigChunk<>("metrics", true);
+    @Getter private final ConfigChunk<Boolean> debugMode = new ConfigChunk<>("debug-mode", false);
     @Getter private final ConfigChunk<List<String>> motDs = new ConfigChunk<>("motds", List.of("&bThe server is working smoothly%newline%&aBe happy! ^^"));
     @Getter private final ConfigChunk<String> versionText = new ConfigChunk<>("version-text", "&4Maintenance!");
     @Getter private final ConfigChunk<String> blockProtocol = new ConfigChunk<>("block-protocol","default");
 
-    private final MotD motDManager;
+
+    @Getter private final MotD motDManager;
 
     public Configuration(JavaPlugin plugin) {
         super(plugin.getLogger(), plugin);
@@ -38,6 +40,7 @@ public class Configuration extends SpigotConfig {
         getConfigChunks().add(checkUpdates);
         getConfigChunks().add(autoUpdate);
         getConfigChunks().add(metrics);
+        getConfigChunks().add(debugMode);
         getConfigChunks().add(motDs);
         getConfigChunks().add(versionText);
         getConfigChunks().add(blockProtocol);

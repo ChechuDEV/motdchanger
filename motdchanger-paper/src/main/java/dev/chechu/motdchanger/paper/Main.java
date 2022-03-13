@@ -20,14 +20,14 @@ public final class Main extends JavaPlugin {
     private Configuration config = null;
     @Override
     public void onEnable() {
-        new Core(false);
         config = new Configuration(this);
         config.getLogger().info("Thanks for using my plugin! Remember to rate it and share it with your friends!");
-
+        new Core(config.getDebugMode().getValue());
         // Dragon-API updater
-        Updater updater = new SpigotUpdater(this, "", config.getAutoUpdate().getValue());
-        Bukkit.getScheduler().runTaskTimer(this, () -> updater.tryUpdate(false), 0, 36000L);
-
+        if (config.getCheckUpdates().getValue()) {
+            Updater updater = new SpigotUpdater(this, "63607", config.getAutoUpdate().getValue());
+            Bukkit.getScheduler().runTaskTimer(this, () -> updater.tryUpdate(false), 0, 36000L);
+        }
         // Event hook
         eventHook();
 
