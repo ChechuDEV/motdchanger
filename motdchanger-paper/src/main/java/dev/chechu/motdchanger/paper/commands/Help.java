@@ -5,10 +5,6 @@ import dev.chechu.dragonapi.core.commands.CommandManager;
 import dev.chechu.dragonapi.core.commands.HelpManager;
 import dev.chechu.dragonapi.core.utils.Description;
 import dev.chechu.dragonapi.core.utils.Sender;
-import org.bukkit.command.CommandSender;
-
-import java.util.Collections;
-import java.util.List;
 
 public class Help implements Command {
     CommandManager manager;
