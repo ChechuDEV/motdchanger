@@ -1,9 +1,10 @@
 package dev.chechu.motdchanger.paper.commands;
 
-import dev.chechu.motdchanger.common.utils.Sender;
+import dev.chechu.dragonapi.core.commands.Command;
+import dev.chechu.dragonapi.core.commands.CommandManager;
+import dev.chechu.dragonapi.spigot.utils.SpigotSender;
 import dev.chechu.motdchanger.paper.Configuration;
 import dev.chechu.motdchanger.paper.MotD;
-import dev.chechu.motdchanger.paper.utils.BukkitSender;
 import dev.chechu.motdchanger.paper.utils.Message;
 import dev.chechu.motdchanger.paper.utils.Messages;
 import org.apache.logging.log4j.util.Strings;
@@ -11,7 +12,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
 
 public class MainCommand implements CommandExecutor {
@@ -23,10 +23,11 @@ public class MainCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, org.bukkit.command.@NotNull Command command, @NotNull String label, @NotNull String[] args) {
         CommandManager commandManager = new CommandManager(config);
-        commandManager.addCommand(new Help(commandManager));
+        Command help = new Help(commandManager);
+        commandManager.addCommand(help);
         commandManager.addCommand(new Info());
         commandManager.addCommand(new Motd(commandManager));
-        commandManager.call(sender,args);
+        commandManager.execute(SpigotSender.from(sender),args,help);
 
         Player player = (Player) sender;
         MotD motD = new MotD(config);

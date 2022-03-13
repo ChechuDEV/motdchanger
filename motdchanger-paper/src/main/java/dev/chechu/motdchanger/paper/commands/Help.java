@@ -1,20 +1,30 @@
 package dev.chechu.motdchanger.paper.commands;
 
-import dev.chechu.motdchanger.common.commands.Command;
-import dev.chechu.motdchanger.common.commands.CommandManager;
+import dev.chechu.dragonapi.core.commands.Command;
+import dev.chechu.dragonapi.core.commands.CommandManager;
+import dev.chechu.dragonapi.core.commands.HelpManager;
+import dev.chechu.dragonapi.core.utils.Description;
+import dev.chechu.dragonapi.core.utils.Sender;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collections;
 import java.util.List;
 
-public class Help extends Command {
+public class Help implements Command {
     CommandManager manager;
+    HelpManager helpManager;
     public Help(CommandManager manager) {
-        super("Displays this help section", List.of("%ocommand"), "help", Collections.emptyList());
         this.manager = manager;
+        helpManager = new HelpManager("motdchange",manager);
     }
+
     @Override
-    public void execute(CommandSender sender, String[] args) {
-        sender.sendMessage(manager.getAllHelp());
+    public void execute(Sender<?> sender, String[] strings) {
+        sender.sendMessage(helpManager.getAllHelp());
+    }
+
+    @Override
+    public Description getDescription() {
+        return null;
     }
 }
