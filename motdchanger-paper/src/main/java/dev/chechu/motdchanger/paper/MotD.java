@@ -30,8 +30,8 @@ public class MotD {
 
     public String getMotD() {
         String motD = config.getMotD();
-        if(config.isRotation())
-            motD = config.getMotDs().get((int)(Math.random() * config.getMotDs().size()));
+        if(config.getRotation().getValue())
+            motD = config.getMotDs().getValue().get((int)(Math.random() * config.getMotDs().size()));
         return convert(motD);
     }
 
