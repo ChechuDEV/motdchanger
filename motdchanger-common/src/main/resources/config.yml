@@ -22,6 +22,3 @@ check-updates: true
 auto-update: true
 # Disable the following setting to disable the metrics of this plugin, it just sends statistics to BStats (plugin version, server version, java version, player count, server location and operating system) (default: true)
 metrics: true
-
-# File version - Do not modify it! It may disappear!
-version: 0.1
