@@ -51,6 +51,9 @@ public class Configuration extends SpigotConfig {
 
     }
 
+    public void setMotD(String motD) {
+        ((Main)getPlugin()).motD = motD;
+    }
 
     public void setMotDs(List<String> motDs) {
         this.motDs.setValue(motDs);
