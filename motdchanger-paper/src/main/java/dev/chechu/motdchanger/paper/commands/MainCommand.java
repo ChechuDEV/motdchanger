@@ -5,8 +5,6 @@ import dev.chechu.dragonapi.core.commands.CommandManager;
 import dev.chechu.dragonapi.spigot.utils.SpigotSender;
 import dev.chechu.motdchanger.paper.Configuration;
 import dev.chechu.motdchanger.paper.MotD;
-import dev.chechu.motdchanger.paper.utils.Message;
-import dev.chechu.motdchanger.paper.utils.Messages;
 import org.apache.logging.log4j.util.Strings;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,109 +20,18 @@ public class MainCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, org.bukkit.command.@NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        CommandManager commandManager = new CommandManager(config);
-        Command help = new Help(commandManager);
+        CommandManager<Configuration> commandManager = new CommandManager<>(config,"motdchange");
+        Command help = new Help();
         commandManager.addCommand(help);
         commandManager.addCommand(new Info());
-        commandManager.addCommand(new Motd(commandManager));
+        commandManager.addCommand(new Motd());
         commandManager.execute(SpigotSender.from(sender),args,help);
 
         Player player = (Player) sender;
         MotD motD = new MotD(config);
-        Messages messages = new Messages();
-        if(args.length < 1) return false;
-        switch (args[0]) {
-            case "motd" -> {
-                switch (args[1]) {
-                    case "get" -> {
-                        player.sendMessage(motD.getMotD());
-                        return true;
-                    }
-                    case "set" -> {
-                        switch (args[2]) {
-                            case "permanent" -> {
-                                if (motD.setMotD(getArgs(3, args), true)) {
-                                    messages.sendMessage(player, Message.PERMANENT_SUCCESS);
-                                }
-                            }
-                            case "temporary" -> {
-                                player.sendMessage("Temporary Message of the Day successfully changed.");
-                                if(motD.setMotD(getArgs(3, args), false)) {
-                                    messages.sendMessage(player, Message.TEMPORARY_SUCCESS);
-                                }
-                            }
-                            default -> {
-                                return false;
-                            }
-                        }
-                    }
-                    case "clear" -> {
-                        player.sendMessage("Message of the Day cleared successfully.");
-                        return motD.setMotD();
-                    }
-                    default -> {
-                        return false;
-                    }
-                }
-                }
-                case "protocol" -> {
-                    switch (args[1]) {
-                        case "display" -> {
-                            switch (args[2]) {
-                                case "default" -> {
-                                    player.sendMessage("Protocol will be displayed as normal.");
-                                    return true;
-                                }
-                                case "never" -> {
-                                    player.sendMessage("Protocol will always be fine, without depending on client's and server's version.");
-                                    return true;
-                                }
-                                case "always" -> {
-                                    player.sendMessage("Protocol will always display Incompatible version and so it will show the Version Name.");
-                                    return true;
-                                }
-                                default -> {
-                                    player.sendMessage("Protocol is shown <x>.");
-                                    return false;
-                                }
-                            }
-                        }
-                        case "set" -> {
-                            player.sendMessage("Protocol text is set to <x>");
-                            return true;
-                        }
-                        case "players" -> {
-                            switch (args[3]) {
-                                case "show" -> {
-                                    player.sendMessage("Players will now be shown.");
-                                    return true;
-                                }
-                                case "hide" -> {
-                                    player.sendMessage("Players will now be hidden.");
-                                    return true;
-                                }
-                                default -> {
-                                    return false;
-                                }
-                            }
-                        }
-                        default -> {
-                            return false;
-                        }
-                    }
-                }
-            default -> {
-                return false;
-            }
-        }
-        return false;
+        return true;
     }
-    private void getHelp(Player player) {
 
-    }
-    private void getInfo(Player player) {
-
-    }
     private String getArgs(int from, String[] args){
         return Strings.join(Arrays.asList(args).subList(from,args.length-1), ' ');
     }
