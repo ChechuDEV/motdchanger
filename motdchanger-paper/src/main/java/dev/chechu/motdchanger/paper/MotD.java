@@ -31,7 +31,7 @@ public class MotD {
     public String getMotD() {
         String motD = config.getMotD();
         if(config.getRotation().getValue())
-            motD = config.getMotDs().getValue().get((int)(Math.random() * config.getMotDs().size()));
+            motD = config.getMotDs().getValue().get((int)(Math.random() * config.getMotDs().getValue().size()));
         return convert(motD);
     }
 
@@ -88,7 +88,7 @@ public class MotD {
     public boolean setMotD(String motD, boolean permanent) {
         config.setMotD(motD);
         if(permanent) {
-            List<String> motDs = config.getMotDs();
+            List<String> motDs = config.getMotDs().getValue();
             motDs.set(0,motD);
             config.setMotDs(motDs);
         }
@@ -96,7 +96,7 @@ public class MotD {
     }
 
     public boolean setMotD() {
-        config.setMotD(config.getMotDs().get(0));
+        config.setMotD(config.getMotDs().getValue().get(0));
         return true;
     }
 }
