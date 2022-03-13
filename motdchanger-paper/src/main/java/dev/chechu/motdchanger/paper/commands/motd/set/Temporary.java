@@ -1,25 +1,21 @@
 package dev.chechu.motdchanger.paper.commands.motd.set;
 
 import dev.chechu.dragonapi.core.commands.Command;
+import dev.chechu.dragonapi.core.commands.CommandManager;
 import dev.chechu.dragonapi.core.utils.Description;
+import dev.chechu.dragonapi.core.utils.Message;
 import dev.chechu.dragonapi.core.utils.Sender;
+import dev.chechu.motdchanger.paper.Configuration;
 import dev.chechu.motdchanger.paper.MotD;
-import dev.chechu.motdchanger.paper.utils.Message;
 import org.apache.logging.log4j.util.Strings;
 
 import java.util.Arrays;
 
 public class Temporary implements Command {
-    private MotD motDManager;
-
-    public Temporary(MotD motDManager) {
-        this.motDManager = motDManager;
-    }
-
     @Override
-    public void execute(Sender<?> sender, String[] strings) {
-        if (motDManager.setMotD(Strings.join(Arrays.asList(strings), ' '), false)) {
-            messages.sendMessage(player, Message.PERMANENT_SUCCESS);
+    public void execute(Sender<?> sender, String[] strings, CommandManager<?> manager) {
+        if (((Configuration)manager.getConfig()).getMotDManager().setMotD(Strings.join(Arrays.asList(strings), ' '), false)) {
+            sender.sendMessage("MotdChanger >> " + Message.get("en_US","motdchange-set-temporary-success"));
         }
     }
 

@@ -7,16 +7,9 @@ import dev.chechu.dragonapi.core.utils.Sender;
 import dev.chechu.motdchanger.paper.Configuration;
 
 public class Get implements Command {
-    CommandManager manager;
-    Configuration config;
-    public Get(CommandManager manager) {
-        this.manager = manager;
-        this.config = (Configuration) manager.getConfig();
-    }
-
     @Override
-    public void execute(Sender<?> sender, String[] strings) {
-        sender.sendMessage(config.getMotD());
+    public void execute(Sender<?> sender, String[] strings, CommandManager<?> manager) {
+        sender.sendMessage(((Configuration)manager.getConfig()).getMotDManager().getMotD());
     }
 
     @Override
