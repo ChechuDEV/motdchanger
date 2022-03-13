@@ -31,15 +31,26 @@ subprojects {
 
     repositories {
         mavenCentral()
+        maven {
+            name = "Github Packages"
+            url = uri("https://maven.pkg.github.com/darkdragon117/dragon-api")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+            }
+
+        }
     }
 
     dependencies {
         testImplementation('org.junit.jupiter:junit-jupiter:5.8.2')
         implementation 'org.jetbrains:annotations:16.0.2'
+        implementation 'dev.chechu:dragonapi:1.0.2'
     }
 
     test {
         useJUnitPlatform()
     }
+
 }
 
