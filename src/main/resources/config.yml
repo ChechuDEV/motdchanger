@@ -1,0 +1,17 @@
+# Please don't edit this file unless you're 100% sure you can't break it. Use in-game/console commands instead.
+# I recommend you to read the plugin's spigot page: https://www.spigotmc.org/resources/motd-changer.63607/
+#
+# Enable or disable MOTD Rotation (default: false)
+rotation: true
+# This is the list of the MOTDs, when rotation is false only the first one will be displayed.
+motds:
+    - "&bThe server is working smoothly%newline%&aBe happy! ^^"
+    - "<cyan>MiniMessage also supported</cyan><newline><gradient:#5e4fa2:#f79459>Now with gradients!</gradient>"
+
+# Checks for updates  (default: true)
+update-check: true
+
+# Disable the following setting to disable the metrics of this plugin, it just sends basic statistics to BStats (plugin version, server version, java version, player count, server location and operating system) (default: true)
+metrics: true
+# Enable the following setting to show the full stacktrace of the errors that may happen. (default: false)
+debug: false
