@@ -1,7 +1,8 @@
-main: dev.chechu.Main
+main: dev.chechu.motdchanger.Main
 name: ${project.name}
 version: ${project.version}
 description: ${project.description}
+prefix: MotDChanger
 api-version: 1.19
 load: POSTWORLD
 author: Chechu
