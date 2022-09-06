@@ -1,15 +1,18 @@
 package dev.chechu.motdchanger;
 
+import java.util.NoSuchElementException;
+
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.chechu.dragonapi.spigot.SpigotUpdater;
 import dev.chechu.motdchanger.bukkit.BukkitPingListener;
+import dev.chechu.motdchanger.exceptions.EmptyListException;
 
 public class Main extends JavaPlugin {
     private static MOTDManager manager;
 
-    public static MOTDManager getManager() {
+    public static MOTDManager getMOTDManager() {
         return manager;
     }
 
@@ -22,10 +25,23 @@ public class Main extends JavaPlugin {
             getConfig().set("rotation", manager.isRotation());
             saveConfig();
         });
+
+        reloadConfig();
+
         if (isPaper()) {
             initPaper();
         } else {
             initBukkit();
+        }
+    }
+
+    @Override
+    public void reloadConfig() {
+        super.reloadConfig();
+        try {
+            manager.reload(getConfig().getStringList("motds"), getConfig().getBoolean("rotation"));
+        } catch (EmptyListException e) {
+            getLogger().warning("No MotDs detected! Plugin will not work as expected.");
         }
     }
 
