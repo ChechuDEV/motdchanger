@@ -5,11 +5,11 @@ import org.bukkit.event.Listener;
 
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 
-import dev.chechu.motdchanger.Main;
+import dev.chechu.motdchanger.BukkitPlugin;
 
 public class PaperPingListener implements Listener {
     @EventHandler
     public void onPing(PaperServerListPingEvent event) {
-        event.motd(Main.getMOTDManager().getMOTD());
+        event.motd(BukkitPlugin.getMOTDManager().getMOTD());
     }
 }

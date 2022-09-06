@@ -1,4 +1,4 @@
-main: dev.chechu.motdchanger.Main
+main: dev.chechu.motdchanger.BukkitPlugin
 name: ${project.name}
 version: ${project.version}
 description: ${project.description}

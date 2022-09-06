@@ -1,7 +1,5 @@
 package dev.chechu.motdchanger;
 
-import java.util.NoSuchElementException;
-
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -9,7 +7,7 @@ import dev.chechu.dragonapi.spigot.SpigotUpdater;
 import dev.chechu.motdchanger.bukkit.BukkitPingListener;
 import dev.chechu.motdchanger.exceptions.EmptyListException;
 
-public class Main extends JavaPlugin {
+public class BukkitPlugin extends JavaPlugin {
     private static MOTDManager manager;
 
     public static MOTDManager getMOTDManager() {
@@ -18,7 +16,11 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        getLogger().info("Thanks for using MOTDChanger. Made by https://chechu.dev/");
+
         new SpigotUpdater(this, "63607", false);
+
+        saveDefaultConfig();
 
         manager = new MOTDManager((manager) -> {
             getConfig().set("motds", manager.serializeAllMOTD());
@@ -68,5 +70,6 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        getLogger().info("Thanks for using MOTDChanger. Made by https://chechu.dev/");
     }
 }
