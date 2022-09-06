@@ -6,7 +6,7 @@ rotation: true
 # This is the list of the MOTDs, when rotation is false only the first one will be displayed.
 motds:
     - "&bThe server is working smoothly%newline%&aBe happy! ^^"
-    - "<cyan>MiniMessage also supported</cyan><newline><gradient:#5e4fa2:#f79459>Now with gradients!</gradient>"
+    - "<aqua>MiniMessage also supported</aqua><newline><gradient:#5e4fa2:#f79459>Now with gradients!</gradient>"
 
 # Checks for updates  (default: true)
 update-check: true
