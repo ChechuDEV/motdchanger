@@ -40,23 +40,23 @@ public class MOTDManager {
     }
 
     private String translateColorSymbols(String string) {
-        return ChatColor.translateAlternateColorCodes('&', string);
+        return ChatColor.translateAlternateColorCodes('&', string); // TODO Change to another class
     }
 
     private Component deserialize(String content) {
         try {
             return miniMessage.deserialize(content);
         } catch (ParsingException e) {
-            return BukkitComponentSerializer.legacy().deserialize(content);
+            return BukkitComponentSerializer.legacy().deserialize(content); // TODO Change to another class
         }
     }
 
     private Component convert(String content) {
-        return deserialize(translateColorSymbols(content));
+        return deserialize(translateColorSymbols(content)); // TODO Change to another class
     }
 
     public String legacySerialize(Component component) {
-        return BukkitComponentSerializer.legacy().serialize(component);
+        return BukkitComponentSerializer.legacy().serialize(component); // TODO Change to another class
     }
 
     public void addMOTD(String mOTD) {
@@ -84,7 +84,7 @@ public class MOTDManager {
     public List<String> serializeAllMOTD() {
         List<String> list = new ArrayList<>();
         for (Component component : getAllMOTD()) {
-            list.add(miniMessage.serialize(component));
+            list.add(miniMessage.serialize(component)); // TODO Change to another class
         }
         return list;
     }
