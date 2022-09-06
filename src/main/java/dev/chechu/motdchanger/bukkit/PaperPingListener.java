@@ -1,4 +1,4 @@
-package dev.chechu.motdchanger.paper;
+package dev.chechu.motdchanger.bukkit;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
