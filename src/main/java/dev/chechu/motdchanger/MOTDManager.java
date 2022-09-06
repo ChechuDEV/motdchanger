@@ -47,7 +47,9 @@ public class MOTDManager {
         try {
             return miniMessage.deserialize(content);
         } catch (ParsingException e) {
-            return BukkitComponentSerializer.legacy().deserialize(content); // TODO Change to another class
+            return BukkitComponentSerializer.legacy()
+                    .deserialize(content.replace("%newline%", System.getProperty("line.separator"))); // TODO Change to
+                                                                                                      // another class
         }
     }
 
@@ -97,7 +99,7 @@ public class MOTDManager {
 
     public Component getMOTD() {
         if (mOTDList.isEmpty()) {
-            return convert("<cyan>Server is running smooth :)</cyan><newline><gold>Be happy!</gold>");
+            return convert("<aqua>Server is running smooth :)</aqua><newline><gold>Be happy!</gold>");
         }
         if (isRotation()) {
             return mOTDList.get(random.nextInt(mOTDList.size()));
