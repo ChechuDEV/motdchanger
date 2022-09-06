@@ -103,9 +103,13 @@
                             <artifactSet>
                                 <includes>
                                     <include>dev.chechu:*</include>
-                                    <include>net.kyori:adventure-platform-bukkit</include>
+                                    <include>net.kyori:*</include>
                                 </includes>
+                                <excludes>
+                                    <exclude>net.kyori:adventure-api</exclude>
+                                </excludes>
                             </artifactSet>
+
                         </configuration>
                     </execution>
                 </executions>
